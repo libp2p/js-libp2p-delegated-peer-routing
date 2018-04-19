@@ -58,7 +58,7 @@ describe('DelegatedPeerRouting', () => {
 
   // skipping, as otherwise CI will randomly break
   it('calls find peer on the connected node (using ipfs.io)', function (done) {
-    this.timeout(1000 * 10)
+    this.timeout(1000 * 30)
     const routing = new DelegatedPeerRouting()
     // Solus Bootstrapper Node ID
     const id = 'QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu'
