@@ -21,9 +21,14 @@ describe('DelegatedPeerRouting', () => {
     let peer
     async.waterfall([
       (cb) => factory.spawn({
-        defaultAddrs: [
-          '/ip4/127.0.0.1/tcp/0'
-        ]
+        config: {
+          Addresses: {
+            API: '/ip4/127.0.0.1/tcp/0',
+            Swarm: [
+              '/ip4/127.0.0.1/tcp/0'
+            ]
+          }
+        }
       }, cb),
       (_ipfsd, cb) => {
         ipfsd = _ipfsd
