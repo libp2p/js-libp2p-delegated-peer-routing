@@ -13,7 +13,7 @@ const getPeerMultiaddrs = (peer) => {
 
 describe('DelegatedPeerRouting', () => {
   it('calls find peer on the connected node', function (done) {
-    this.timeout(1000 * 60)
+    this.timeout(1000 * 120)
 
     const factory = IPFSFactory.create({ type: 'go' })
     let ipfsd
@@ -56,9 +56,8 @@ describe('DelegatedPeerRouting', () => {
     ], done)
   })
 
-  // skipping, as otherwise CI will randomly break
   it('calls find peer on the connected node (using ipfs.io)', function (done) {
-    this.timeout(1000 * 30)
+    this.timeout(1000 * 120)
     const routing = new DelegatedPeerRouting()
     // Solus Bootstrapper Node ID
     const id = 'QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu'
