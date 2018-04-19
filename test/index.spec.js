@@ -7,8 +7,12 @@ const async = require('async')
 
 const DelegatedPeerRouting = require('../src')
 
+const getPeerMultiaddrs = (peer) => {
+  return peer.multiaddrs.toArray().map(ma => ma.toString())
+}
+
 describe('DelegatedPeerRouting', () => {
-  it('calls find peer on the connected node', function (done) {
+  it.only('calls find peer on the connected node', function (done) {
     this.timeout(100000)
 
     const factory = IPFSFactory.create({ type: 'go' })
@@ -35,6 +39,7 @@ describe('DelegatedPeerRouting', () => {
       },
       (newPeer, cb) => {
         expect(newPeer.multiaddrs.size).to.be.above(0)
+        expect(getPeerMultiaddrs(newPeer)).to.contain(peer.addr.toString())
         expect(newPeer.id).to.be.eql(peer.peer.toB58String())
         cb()
       }
@@ -42,16 +47,18 @@ describe('DelegatedPeerRouting', () => {
   })
 
   // skipping, as otherwise CI will randomly break
-  it.skip('calls find peer on the connected node (using ipfs.io)', function (done) {
+  it('calls find peer on the connected node (using ipfs.io)', function (done) {
     this.timeout(100000)
     const routing = new DelegatedPeerRouting()
-    const id = 'Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6'
+    // TODO where is this peer coming from?
+    const id = 'QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu'
 
     async.waterfall([
       (cb) => routing.findPeer(id, cb),
       (newPeer, cb) => {
-        expect(newPeer.multiaddrs.size).to.be.above(0)
-        expect(newPeer.id).to.be.eql(id)
+        console.log(newPeer.multiaddrs)
+        expect(newPeer.multiaddrs.size).to.be.within(4, 8)
+        expect(newPeer.id).to.eql(id)
         cb()
       }
     ], done)
