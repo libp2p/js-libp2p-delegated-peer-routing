@@ -10,6 +10,10 @@ const DEFAULT_IPFS_API = {
   host: 'ipfs.io'
 }
 
+const peerNotFoundError = (id) => {
+  return new Error(`Peer "${id}" not found`)
+}
+
 class DelegatedPeerRouting {
   constructor (api) {
     this.api = Object.assign({}, defaultConfig(), api || DEFAULT_IPFS_API)
@@ -26,10 +30,14 @@ class DelegatedPeerRouting {
       const actual = results.filter((res) => Boolean(res.Responses))
 
       if (actual.length === 0) {
-        return callback(new Error('peer not found'))
+        return callback(peerNotFoundError(id))
       }
 
-      const details = actual[0].Responses[0]
+      const wantedResponse = actual.find((el) => el.Type === 2)
+      if (wantedResponse === undefined) {
+        return callback(peerNotFoundError(id))
+      }
+      const details = wantedResponse.Responses[0]
       const info = new PeerInfo(details.ID)
       details.Addrs.forEach((addr) => info.multiaddrs.add(addr))
 
