@@ -13,7 +13,7 @@ const getPeerMultiaddrs = (peer) => {
 
 describe('DelegatedPeerRouting', () => {
   it('calls find peer on the connected node', function (done) {
-    this.timeout(1000 * 300)
+    this.timeout(1000 * 10)
 
     const factory = IPFSFactory.create({ type: 'go' })
     let ipfsd
