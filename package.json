@@ -1,9 +1,10 @@
 {
   "name": "libp2p-delegated-peer-routing",
   "version": "0.1.0",
+  "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
+  "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
   "main": "src/index.js",
   "repository": "git@github.com:libp2p/js-libp2p-delegated-peer-routing.git",
-  "author": "dignifiedquire <dignifiedquire@gmail.com>",
   "license": "MIT",
   "private": false,
   "scripts": {

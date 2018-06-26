@@ -1,6 +1,10 @@
 # js-libp2p-delegated-peer-routing
 Leverage other peers in the network to perform Peer Routing calls.
 
+## Lead Maintainer
+
+[Jacob Heun](https://github.com/jacobheun)
+
 ## Example
 
 ```
