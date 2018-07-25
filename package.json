@@ -10,22 +10,22 @@
   "scripts": {
     "lint": "aegir lint",
     "build": "aegir build",
-    "test": "aegir test",
-    "test:node": "aegir test -t node",
+    "test": "aegir test -f test/**/*.spec.js",
+    "test:node": "aegir test -t node -f test/**/*.spec.js",
     "release": "aegir release",
     "release-minor": "aegir release --type minor",
     "release-major": "aegir release --type major",
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^13.0.7",
-    "async": "^2.6.0",
+    "aegir": "^15.0.1",
+    "async": "^2.6.1",
     "chai": "^4.1.2",
-    "go-ipfs-dep": "^0.4.14",
-    "ipfsd-ctl": "^0.32.1"
+    "go-ipfs-dep": "~0.4.16",
+    "ipfsd-ctl": "~0.38.0"
   },
   "dependencies": {
-    "ipfs-api": "^20.0.1",
-    "peer-info": "^0.14.1"
+    "ipfs-api": "^22.2.4",
+    "peer-info": "~0.14.1"
   }
 }
