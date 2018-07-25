@@ -16,7 +16,7 @@ const peerNotFoundError = (id) => {
 
 class DelegatedPeerRouting {
   constructor (api) {
-    this.api = Object.assign({}, defaultConfig(), api || DEFAULT_IPFS_API)
+    this.api = Object.assign({}, defaultConfig(), DEFAULT_IPFS_API, api)
     this.dht = dht(this.api)
   }
 

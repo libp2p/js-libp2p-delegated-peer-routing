@@ -6,88 +6,146 @@ const IPFSFactory = require('ipfsd-ctl')
 const async = require('async')
 
 const DelegatedPeerRouting = require('../src')
+const factory = IPFSFactory.create({ type: 'go' })
 
-const getPeerMultiaddrs = (peer) => {
-  return peer.multiaddrs.toArray().map(ma => ma.toString())
+function spawnNode (boostrap, callback) {
+  if (typeof boostrap === 'function') {
+    callback = boostrap
+    boostrap = []
+  }
+
+  factory.spawn({
+    // Lock down the nodes so testing can be deterministic
+    config: {
+      Bootstrap: boostrap,
+      Discovery: {
+        MDNS: {
+          Enabled: false
+        }
+      }
+    }
+  }, (err, node) => {
+    if (err) return callback(err)
+
+    node.api.id((err, id) => {
+      if (err) return callback(err)
+
+      callback(null, node, id)
+    })
+  })
 }
 
-describe('DelegatedPeerRouting', () => {
-  it('calls find peer on the connected node', function (done) {
-    this.timeout(1000 * 120)
+describe('DelegatedPeerRouting', function () {
+  this.timeout(20 * 1000) // we're spawning daemons, give ci some time
 
-    const factory = IPFSFactory.create({ type: 'go' })
-    let ipfsd
-    let routing
-    let peer
+  let selfNode
+  let selfId
+  let delegatedNode
+  let bootstrapNode
+  let bootstrapId
+
+  before((done) => {
     async.waterfall([
-      (cb) => factory.spawn({
-        config: {
-          Addresses: {
-            API: '/ip4/127.0.0.1/tcp/0',
-            Swarm: [
-              '/ip4/0.0.0.0/tcp/0'
-            ]
-          }
-        }
-      }, cb),
-      (_ipfsd, cb) => {
-        ipfsd = _ipfsd
-        const opts = ipfsd.apiAddr.toOptions()
-        routing = new DelegatedPeerRouting({
-          protocol: 'http',
-          port: opts.port,
-          host: opts.host
-        })
-        ipfsd.api.swarm.peers(cb)
-      },
-      (peers, cb) => {
-        peer = peers[0]
-        const id = peer.peer.toB58String()
-        routing.findPeer(id, cb)
-      },
-      (newPeer, cb) => {
-        expect(newPeer.multiaddrs.size).to.be.above(0)
-        expect(getPeerMultiaddrs(newPeer)).to.contain(peer.addr.toString())
-        expect(newPeer.id).to.be.eql(peer.peer.toB58String())
+      // Spawn a "Boostrap" node that doesnt connect to anything
+      (cb) => spawnNode(cb),
+      (ipfsd, id, cb) => {
+        bootstrapNode = ipfsd
+        bootstrapId = id
         cb()
-      }, (cb) => {
-        ipfsd.stop(cb)
+      },
+      // Spawn our local node and bootstrap the bootstrapper node
+      (cb) => spawnNode(bootstrapId.addresses, cb),
+      (ipfsd, id, cb) => {
+        selfNode = ipfsd
+        selfId = id
+        cb()
+      },
+      // Spawn the delegate node and bootstrap the bootstrapper node
+      (cb) => spawnNode(bootstrapId.addresses, cb),
+      (ipfsd, id, cb) => {
+        delegatedNode = ipfsd
+        cb()
       }
     ], done)
   })
 
-  it('calls find peer on the connected node (using ipfs.io)', function (done) {
-    this.timeout(1000 * 120)
-    const routing = new DelegatedPeerRouting()
-    // Solus Bootstrapper Node ID
-    const id = 'QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu'
-    // List of multiaddrs we know Solus should at least have
-    // Bit risky to have in the tests as we can't guarantee that they will be returned...
-    const knownMultiaddrs = [
-      '/ip6/::1/tcp/4001',
-      // '/ip4/127.0.0.1/tcp/8081/ws', sometimes not included, but should...
-      '/ip4/127.0.0.1/tcp/4001',
-      '/ip4/10.15.0.5/tcp/4001',
-      '/ip4/128.199.219.111/tcp/4001',
-      '/ip6/2400:6180:0:d0::151:6001/tcp/4001',
-      '/ip4/172.17.0.1/tcp/4001',
-      '/ip6/fc4e:5427:3cd0:cc4c:4770:25bb:a682:d06c/tcp/4001'
-    ]
-
-    async.waterfall([
-      (cb) => routing.findPeer(id, cb),
-      (newPeer, cb) => {
-        // ID matches what we wanted
-        expect(newPeer.id).to.eql(id)
-        // Should have at least one multiaddr
-        expect(newPeer.multiaddrs.size).to.be.above(0)
-        // Should contain multiaddrs we know peer to have
-        const receivedMultiaddrs = getPeerMultiaddrs(newPeer)
-        knownMultiaddrs.forEach((ma) => {
-          expect(receivedMultiaddrs).to.contain(ma)
-        })
-        cb()
-      }
+  after((done) => {
+    async.parallel([
+      (cb) => selfNode.stop(cb),
+      (cb) => delegatedNode.stop(cb),
+      (cb) => bootstrapNode.stop(cb)
     ], done)
+  })
+
+  describe('create', () => {
+    it('should default to https://ipfs.io as the delegate', () => {
+      const router = new DelegatedPeerRouting()
+
+      expect(router.api).to.include({
+        'api-path': '/api/v0/',
+        protocol: 'https',
+        port: 443,
+        host: 'ipfs.io'
+      })
+    })
+
+    it('should allow for just specifying the host', () => {
+      const router = new DelegatedPeerRouting({
+        host: 'other.ipfs.io'
+      })
+
+      expect(router.api).to.include({
+        'api-path': '/api/v0/',
+        protocol: 'https',
+        port: 443,
+        host: 'other.ipfs.io'
+      })
+    })
+
+    it('should allow for overriding the api', () => {
+      const api = {
+        'api-path': '/api/v1/',
+        protocol: 'http',
+        port: 8000,
+        host: 'localhost'
+      }
+      const router = new DelegatedPeerRouting(api)
+
+      expect(router.api).to.include(api)
+    })
+  })
+
+  describe('findPeers', () => {
+    it('should be able to find peers via the delegate', (done) => {
+      const opts = delegatedNode.apiAddr.toOptions()
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      router.findPeer(selfId.id, (err, peer) => {
+        expect(err).to.equal(null)
+        expect(peer.id).to.eql(selfId.id)
+        done()
+      })
+    })
+
+    it('should not be able to find peers not on the network', (done) => {
+      const opts = delegatedNode.apiAddr.toOptions()
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      // This is one of the default Bootstrap nodes, but we're not connected to it
+      // so we'll test with it.
+      router.findPeer('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64', (err, peer) => {
+        expect(err).to.be.an('error')
+        expect(peer).to.eql(undefined)
+        done()
+      })
+    })
   })
 })
