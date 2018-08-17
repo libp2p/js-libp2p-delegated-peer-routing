@@ -38,8 +38,8 @@ function spawnNode (boostrap, callback) {
 describe('DelegatedPeerRouting', function () {
   this.timeout(20 * 1000) // we're spawning daemons, give ci some time
 
-  let selfNode
-  let selfId
+  let nodeToFind
+  let peerIdToFind
   let delegatedNode
   let bootstrapNode
   let bootstrapId
@@ -56,8 +56,8 @@ describe('DelegatedPeerRouting', function () {
       // Spawn our local node and bootstrap the bootstrapper node
       (cb) => spawnNode(bootstrapId.addresses, cb),
       (ipfsd, id, cb) => {
-        selfNode = ipfsd
-        selfId = id
+        nodeToFind = ipfsd
+        peerIdToFind = id
         cb()
       },
       // Spawn the delegate node and bootstrap the bootstrapper node
@@ -71,7 +71,7 @@ describe('DelegatedPeerRouting', function () {
 
   after((done) => {
     async.parallel([
-      (cb) => selfNode.stop(cb),
+      (cb) => nodeToFind.stop(cb),
       (cb) => delegatedNode.stop(cb),
       (cb) => bootstrapNode.stop(cb)
     ], done)
@@ -124,9 +124,9 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      router.findPeer(selfId.id, (err, peer) => {
+      router.findPeer(peerIdToFind.id, (err, peer) => {
         expect(err).to.equal(null)
-        expect(peer.id).to.eql(selfId.id)
+        expect(peer.id).to.eql(peerIdToFind.id)
         done()
       })
     })
