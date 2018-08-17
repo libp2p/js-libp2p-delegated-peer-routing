@@ -7,7 +7,7 @@ Leverage other peers in the network to perform Peer Routing calls.
 
 ## Example
 
-```
+```js
 const DelegatedPeerRouting = require('libp2p-delegated-routing')
 
 // default is to use ipfs.io
