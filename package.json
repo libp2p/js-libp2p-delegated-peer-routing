@@ -18,14 +18,14 @@
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^15.0.1",
+    "aegir": "^15.1.0",
     "async": "^2.6.1",
     "chai": "^4.1.2",
     "go-ipfs-dep": "~0.4.16",
     "ipfsd-ctl": "~0.38.0"
   },
   "dependencies": {
-    "ipfs-api": "^22.2.4",
+    "ipfs-api": "^24.0.1",
     "peer-info": "~0.14.1"
   }
 }
