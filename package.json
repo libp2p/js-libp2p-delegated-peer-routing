@@ -27,5 +27,11 @@
   "dependencies": {
     "ipfs-api": "^24.0.1",
     "peer-info": "~0.14.1"
-  }
+  },
+  "contributors": [
+    "David Dias <daviddias.p@gmail.com>",
+    "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
+    "Jacob Heun <jacobheun@gmail.com>",
+    "Maciej Krüger <mkg20001@gmail.com>"
+  ]
 }
