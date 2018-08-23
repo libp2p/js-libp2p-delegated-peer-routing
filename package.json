@@ -1,6 +1,6 @@
 {
   "name": "libp2p-delegated-peer-routing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
   "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
   "main": "src/index.js",
