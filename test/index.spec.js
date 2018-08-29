@@ -126,7 +126,7 @@ describe('DelegatedPeerRouting', function () {
 
       router.findPeer(peerIdToFind.id, (err, peer) => {
         expect(err).to.equal(null)
-        expect(peer.id).to.eql(peerIdToFind.id)
+        expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
       })
     })
