@@ -4,6 +4,7 @@
 const expect = require('chai').expect
 const IPFSFactory = require('ipfsd-ctl')
 const async = require('async')
+const PeerID = require('peer-id')
 
 const DelegatedPeerRouting = require('../src')
 const factory = IPFSFactory.create({ type: 'go' })
@@ -116,7 +117,7 @@ describe('DelegatedPeerRouting', function () {
   })
 
   describe('findPeers', () => {
-    it('should be able to find peers via the delegate', (done) => {
+    it('should be able to find peers via the delegate with a peer id string', (done) => {
       const opts = delegatedNode.apiAddr.toOptions()
       const router = new DelegatedPeerRouting({
         protocol: 'http',
@@ -125,6 +126,21 @@ describe('DelegatedPeerRouting', function () {
       })
 
       router.findPeer(peerIdToFind.id, (err, peer) => {
+        expect(err).to.equal(null)
+        expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+        done()
+      })
+    })
+
+    it('should be able to find peers via the delegate with a peerid', (done) => {
+      const opts = delegatedNode.apiAddr.toOptions()
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      router.findPeer(PeerID.createFromB58String(peerIdToFind.id), (err, peer) => {
         expect(err).to.equal(null)
         expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
