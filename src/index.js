@@ -1,6 +1,7 @@
 'use strict'
 
 const PeerInfo = require('peer-info')
+const PeerId = require('peer-id')
 const dht = require('ipfs-api/src/dht')
 const defaultConfig = require('ipfs-api/src/utils/default-config')
 
@@ -20,7 +21,18 @@ class DelegatedPeerRouting {
     this.dht = dht(this.api)
   }
 
+  /**
+   * Attempts to find the given peer
+   *
+   * @param {PeerID} id
+   * @param {function(Error, PeerInfo)} callback
+   * @returns {void}
+   */
   findPeer (id, callback) {
+    if (PeerId.isPeerId(id)) {
+      id = id.toB58String()
+    }
+
     this.dht.findpeer(id, (err, results) => {
       if (err) {
         return callback(err)
@@ -38,7 +50,9 @@ class DelegatedPeerRouting {
         return callback(peerNotFoundError(id))
       }
       const details = wantedResponse.Responses[0]
-      const info = new PeerInfo(details.ID)
+      const info = new PeerInfo(
+        PeerId.createFromB58String(details.ID)
+      )
       details.Addrs.forEach((addr) => info.multiaddrs.add(addr))
 
       // there should be only one of these
