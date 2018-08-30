@@ -29,7 +29,7 @@ class DelegatedPeerRouting {
    * @returns {void}
    */
   findPeer (id, callback) {
-    if (typeof id !== 'string') {
+    if (PeerId.isPeerId(id)) {
       id = id.toB58String()
     }
 
