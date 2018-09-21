@@ -147,6 +147,21 @@ describe('DelegatedPeerRouting', function () {
       })
     })
 
+    it('should be able to specify a timeout', (done) => {
+      const opts = delegatedNode.apiAddr.toOptions()
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      router.findPeer(PeerID.createFromB58String(peerIdToFind.id), 2000, (err, peer) => {
+        expect(err).to.equal(null)
+        expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+        done()
+      })
+    })
+
     it('should not be able to find peers not on the network', (done) => {
       const opts = delegatedNode.apiAddr.toOptions()
       const router = new DelegatedPeerRouting({

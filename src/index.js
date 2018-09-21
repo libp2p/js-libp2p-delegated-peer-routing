@@ -5,6 +5,7 @@ const PeerId = require('peer-id')
 const dht = require('ipfs-api/src/dht')
 const defaultConfig = require('ipfs-api/src/utils/default-config')
 
+const DEFAULT_MAX_TIMEOUT = 30e3 // 30 second default
 const DEFAULT_IPFS_API = {
   protocol: 'https',
   port: 443,
@@ -25,15 +26,25 @@ class DelegatedPeerRouting {
    * Attempts to find the given peer
    *
    * @param {PeerID} id
+   * @param {number} timeout How long the query can take. Defaults to 30 seconds
    * @param {function(Error, PeerInfo)} callback
    * @returns {void}
    */
-  findPeer (id, callback) {
+  findPeer (id, timeout, callback) {
+    if (typeof timeout === 'function') {
+      callback = timeout
+      timeout = null
+    }
+
     if (PeerId.isPeerId(id)) {
       id = id.toB58String()
     }
 
-    this.dht.findpeer(id, (err, results) => {
+    timeout = timeout || DEFAULT_MAX_TIMEOUT
+
+    this.dht.findpeer(id, {
+      timeout: `${timeout}ms`// The api requires specification of the time unit (s/ms)
+    }, (err, results) => {
       if (err) {
         return callback(err)
       }
