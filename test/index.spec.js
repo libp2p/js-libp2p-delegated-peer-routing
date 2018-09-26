@@ -147,7 +147,7 @@ describe('DelegatedPeerRouting', function () {
       })
     })
 
-    it('should be able to specify a timeout', (done) => {
+    it('should be able to specify a maxTimeout', (done) => {
       const opts = delegatedNode.apiAddr.toOptions()
       const router = new DelegatedPeerRouting({
         protocol: 'http',
@@ -155,7 +155,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      router.findPeer(PeerID.createFromB58String(peerIdToFind.id), 2000, (err, peer) => {
+      router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { maxTimeout: 2000 }, (err, peer) => {
         expect(err).to.equal(null)
         expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
