@@ -1,3 +1,13 @@
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.1...v0.2.2) (2018-09-27)
+
+
+### Features
+
+* add timeout defaults ([#6](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/6)) ([2909585](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/2909585))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.0...v0.2.1) (2018-08-30)
 
