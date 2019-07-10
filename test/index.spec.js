@@ -1,7 +1,9 @@
 /* eslint-env mocha */
 'use strict'
 
-const expect = require('chai').expect
+const chai = require('chai')
+const { expect } = chai
+chai.use(require('dirty-chai'))
 const IPFSFactory = require('ipfsd-ctl')
 const async = require('async')
 const PeerID = require('peer-id')
@@ -126,7 +128,8 @@ describe('DelegatedPeerRouting', function () {
       })
 
       router.findPeer(peerIdToFind.id, (err, peer) => {
-        expect(err).to.equal(null)
+        expect(err).to.not.exist()
+        expect(peer).to.exist()
         expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
       })
@@ -141,7 +144,8 @@ describe('DelegatedPeerRouting', function () {
       })
 
       router.findPeer(PeerID.createFromB58String(peerIdToFind.id), (err, peer) => {
-        expect(err).to.equal(null)
+        expect(err).to.not.exist()
+        expect(peer).to.exist()
         expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
       })
@@ -156,7 +160,8 @@ describe('DelegatedPeerRouting', function () {
       })
 
       router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { maxTimeout: 2000 }, (err, peer) => {
-        expect(err).to.equal(null)
+        expect(err).to.not.exist()
+        expect(peer).to.exist()
         expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
         done()
       })
@@ -173,8 +178,8 @@ describe('DelegatedPeerRouting', function () {
       // This is one of the default Bootstrap nodes, but we're not connected to it
       // so we'll test with it.
       router.findPeer('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64', (err, peer) => {
-        expect(err).to.be.an('error')
-        expect(peer).to.eql(undefined)
+        expect(err).to.not.exist()
+        expect(peer).to.not.exist()
         done()
       })
     })
