@@ -1,3 +1,8 @@
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.2...v0.2.3) (2019-07-10)
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.1...v0.2.2) (2018-09-27)
 
