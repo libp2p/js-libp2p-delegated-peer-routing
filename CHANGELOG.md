@@ -1,3 +1,22 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.3...v0.3.0) (2019-07-12)
+
+
+### Features
+
+* refactor to use async/await ([#8](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/8)) ([1827328](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/1827328))
+
+
+### BREAKING CHANGES
+
+* API refactored to use async/await
+
+Also upgrades all the deps, moves from `ipfs-api` to `ipfs-http-client`
+and removes a lot of results massaging that is now done in the
+http client.
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.2...v0.2.3) (2019-07-10)
 
