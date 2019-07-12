@@ -23,39 +23,26 @@ class DelegatedPeerRouting {
    * @param {PeerID} id
    * @param {object} options
    * @param {number} options.maxTimeout How long the query can take. Defaults to 30 seconds
-   * @param {function(Error, PeerInfo)} callback
-   * @returns {void}
+   * @returns {Promise<PeerInfo>}
    */
-  findPeer (id, options, callback) {
-    if (typeof options === 'function') {
-      callback = options
-      options = {}
-    } else if (typeof options === 'number') { // This will be deprecated in a next release
-      options = {
-        maxTimeout: options
-      }
-    } else {
-      options = options || {}
-    }
-
+  async findPeer (id, options = {}) {
     if (PeerId.isPeerId(id)) {
       id = id.toB58String()
     }
 
     options.maxTimeout = options.maxTimeout || DEFAULT_MAX_TIMEOUT
 
-    this.dht.findPeer(id, {
-      timeout: `${options.maxTimeout}ms`// The api requires specification of the time unit (s/ms)
-    }, (err, info) => {
-      if (err) {
-        if (err.message.includes('not found')) {
-          return callback()
-        }
-        return callback(err)
+    try {
+      return await this.dht.findPeer(id, {
+        timeout: `${options.maxTimeout}ms`// The api requires specification of the time unit (s/ms)
+      })
+    } catch (err) {
+      if (err.message.includes('not found')) {
+        return undefined
       }
 
-      callback(null, info)
-    })
+      throw err
+    }
   }
 }
 

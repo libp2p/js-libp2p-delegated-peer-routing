@@ -13,13 +13,13 @@ const DelegatedPeerRouting = require('libp2p-delegated-routing')
 // default is to use ipfs.io
 const routing = new DelegatedPeerRouing()
 
-routing.findPeer('peerid', (err, peerInfo) => {
-  if (err) {
-    return console.error(err)
-  }
+try {
+  const peerInfo = await routing.findPeer('peerid')
 
   console.log('found peer details', peerInfo)
-})
+} catch (err) {
+  console.error(err)
+}
 ```
 
 ## License

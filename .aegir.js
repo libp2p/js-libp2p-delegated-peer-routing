@@ -6,7 +6,9 @@ const server = createServer()
 
 module.exports = {
   hooks: {
-    pre: server.start.bind(server),
-    post: server.stop.bind(server)
+    browser: {
+      pre: () => server.start(),
+      post: () => server.stop()
+    }
   }
 }
