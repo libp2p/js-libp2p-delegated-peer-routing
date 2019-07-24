@@ -1,3 +1,13 @@
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.3.0...v0.3.1) (2019-07-24)
+
+
+### Bug Fixes
+
+* limit concurrent HTTP requests ([#12](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/12)) ([e844d30](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/e844d30))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.2.3...v0.3.0) (2019-07-12)
 
