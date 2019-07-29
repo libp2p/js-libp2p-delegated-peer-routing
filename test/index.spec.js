@@ -81,14 +81,14 @@ describe('DelegatedPeerRouting', function () {
   })
 
   describe('create', () => {
-    it('should default to https://ipfs.io as the delegate', () => {
+    it('should default to https://node0.delegate.ipfs.io as the delegate', () => {
       const router = new DelegatedPeerRouting()
 
       expect(router.api).to.include({
         'api-path': '/api/v0/',
         protocol: 'https',
         port: 443,
-        host: 'ipfs.io'
+        host: 'node0.delegate.ipfs.io'
       })
     })
 
