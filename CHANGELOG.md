@@ -1,3 +1,18 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.3.1...v0.4.0) (2019-11-29)
+
+
+### Chores
+
+* rename timeout option ([#14](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/14)) ([36d852f](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/36d852f))
+
+
+### BREAKING CHANGES
+
+* maxTimeout option renamed to timeout
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.3.0...v0.3.1) (2019-07-24)
 
