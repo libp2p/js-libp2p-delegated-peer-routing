@@ -68,7 +68,7 @@ describe('DelegatedPeerRouting', function () {
       const router = new DelegatedPeerRouting()
 
       expect(router.api).to.include({
-        'api-path': '/api/v0/',
+        'api-path': '/api/v0',
         protocol: 'https',
         port: 443,
         host: 'node0.delegate.ipfs.io'
@@ -81,7 +81,7 @@ describe('DelegatedPeerRouting', function () {
       })
 
       expect(router.api).to.include({
-        'api-path': '/api/v0/',
+        'api-path': '/api/v0',
         protocol: 'https',
         port: 443,
         host: 'other.ipfs.io'
@@ -90,7 +90,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should allow for overriding the api', () => {
       const api = {
-        'api-path': '/api/v1/',
+        'api-path': '/api/v1',
         protocol: 'http',
         port: 8000,
         host: 'localhost'
@@ -128,7 +128,7 @@ describe('DelegatedPeerRouting', function () {
       expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
     })
 
-    it('should be able to specify a maxTimeout', async () => {
+    it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
       const router = new DelegatedPeerRouting({
         protocol: 'http',
@@ -136,7 +136,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { maxTimeout: 2000 })
+      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
       expect(peer).to.exist()
       expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
     })
