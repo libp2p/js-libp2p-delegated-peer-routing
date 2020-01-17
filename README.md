@@ -1,5 +1,8 @@
 # js-libp2p-delegated-peer-routing
+
 Leverage other peers in the network to perform Peer Routing calls.
+
+Requires access to `/api/v0/dht/findpeer` HTTP API endpoint of the delegate node.
 
 ## Lead Maintainer
 
