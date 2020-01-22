@@ -8,16 +8,21 @@ const IPFSFactory = require('ipfsd-ctl')
 const PeerID = require('peer-id')
 
 const DelegatedPeerRouting = require('../src')
-const factory = IPFSFactory.create({ type: 'go' })
+const factory = IPFSFactory.createFactory({
+  type: 'go',
+  test: true
+})
 
 async function spawnNode (boostrap = []) {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
-    config: {
-      Bootstrap: boostrap,
-      Discovery: {
-        MDNS: {
-          Enabled: false
+    ipfsOptions: {
+      config: {
+        Bootstrap: boostrap,
+        Discovery: {
+          MDNS: {
+            Enabled: false
+          }
         }
       }
     }
@@ -112,7 +117,7 @@ describe('DelegatedPeerRouting', function () {
 
       const peer = await router.findPeer(peerIdToFind.id)
       expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      expect(peer.id.toString()).to.eql(peerIdToFind.id)
     })
 
     it('should be able to find peers via the delegate with a peerid', async () => {
@@ -125,7 +130,7 @@ describe('DelegatedPeerRouting', function () {
 
       const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
       expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      expect(peer.id.toString()).to.eql(peerIdToFind.id)
     })
 
     it('should be able to specify a timeout', async () => {
@@ -138,7 +143,7 @@ describe('DelegatedPeerRouting', function () {
 
       const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
       expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      expect(peer.id.toString()).to.eql(peerIdToFind.id)
     })
 
     it('should not be able to find peers not on the network', async () => {

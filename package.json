@@ -21,14 +21,14 @@
     "aegir": "^20.4.1",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "go-ipfs-dep": "~0.4.22",
-    "ipfsd-ctl": "^0.44.1"
+    "go-ipfs-dep": "^0.4.22",
+    "ipfsd-ctl": "^1.0.6"
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "ipfs-http-client": "^40.0.1",
+    "ipfs-http-client": "github:ipfs/js-ipfs-http-client#refactor/async-iterables2",
     "p-queue": "^6.2.1",
-    "peer-id": "~0.13.5"
+    "peer-id": "^0.13.5"
   },
   "contributors": [
     "Alan Shaw <alan.shaw@protocol.ai>",
