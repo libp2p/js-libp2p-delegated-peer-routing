@@ -2,7 +2,7 @@
 
 const PeerId = require('peer-id')
 const PeerInfo = require('peer-info')
-const dht = require('ipfs-http-client/src/dht')
+const createFindPeer = require('ipfs-http-client/src/dht/find-peer')
 const { default: PQueue } = require('p-queue')
 const debug = require('debug')
 
@@ -20,7 +20,7 @@ const CONCURRENT_HTTP_REQUESTS = 4
 class DelegatedPeerRouting {
   constructor (api) {
     this.api = Object.assign({}, DEFAULT_IPFS_API, api)
-    this.dht = dht(this.api)
+    this.dht = { findPeer: createFindPeer(this.api) }
 
     // limit concurrency to avoid request flood in web browser
     // https://github.com/libp2p/js-libp2p-delegated-content-routing/issues/12
