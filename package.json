@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "ipfs-http-client": "^42.0.0-pre.2",
+    "ipfs-http-client": "^42.0.0",
     "p-queue": "^6.2.1",
     "peer-id": "~0.13.5",
     "peer-info": "^0.17.1"
