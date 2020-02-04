@@ -1,8 +1,8 @@
 'use strict'
 
 const PeerId = require('peer-id')
-const dht = require('ipfs-http-client/src/dht')
-const getEndpointConfig = require('ipfs-http-client/src/get-endpoint-config')
+const PeerInfo = require('peer-info')
+const createFindPeer = require('ipfs-http-client/src/dht/find-peer')
 const { default: PQueue } = require('p-queue')
 const debug = require('debug')
 
@@ -19,8 +19,8 @@ const CONCURRENT_HTTP_REQUESTS = 4
 
 class DelegatedPeerRouting {
   constructor (api) {
-    this.api = Object.assign({}, getEndpointConfig()(), DEFAULT_IPFS_API, api)
-    this.dht = dht(this.api)
+    this.api = Object.assign({}, DEFAULT_IPFS_API, api)
+    this.dht = { findPeer: createFindPeer(this.api) }
 
     // limit concurrency to avoid request flood in web browser
     // https://github.com/libp2p/js-libp2p-delegated-content-routing/issues/12
@@ -47,9 +47,15 @@ class DelegatedPeerRouting {
     options.timeout = options.timeout || DEFAULT_TIMEOUT
 
     try {
-      return await this._httpQueue.add(() => this.dht.findPeer(id, {
-        timeout: `${options.timeout}ms`// The api requires specification of the time unit (s/ms)
-      }))
+      return await this._httpQueue.add(async () => {
+        const { addrs } = await this.dht.findPeer(id, {
+          timeout: `${options.timeout}ms`// The api requires specification of the time unit (s/ms)
+        })
+
+        const peerInfo = new PeerInfo(PeerId.createFromCID(id))
+        addrs.forEach(addr => peerInfo.multiaddrs.add(addr))
+        return peerInfo
+      })
     } catch (err) {
       if (err.message.includes('not found')) {
         return undefined

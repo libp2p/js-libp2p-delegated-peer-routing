@@ -21,14 +21,15 @@
     "aegir": "^20.4.1",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "go-ipfs-dep": "~0.4.22",
+    "go-ipfs-dep": "^0.4.23",
     "ipfsd-ctl": "^0.44.1"
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "ipfs-http-client": "^40.0.1",
+    "ipfs-http-client": "^42.0.0",
     "p-queue": "^6.2.1",
-    "peer-id": "~0.13.5"
+    "peer-id": "~0.13.5",
+    "peer-info": "^0.17.1"
   },
   "contributors": [
     "Alan Shaw <alan.shaw@protocol.ai>",
