@@ -22,7 +22,7 @@
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
     "go-ipfs-dep": "^0.4.23",
-    "ipfsd-ctl": "^0.44.1"
+    "ipfsd-ctl": "^1.0.7"
   },
   "dependencies": {
     "debug": "^4.1.1",
