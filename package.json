@@ -18,15 +18,16 @@
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^21.0.2",
+    "aegir": "^21.4.5",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "go-ipfs-dep": "^0.4.23",
-    "ipfsd-ctl": "^0.44.1"
+    "go-ipfs-dep": "0.4.23-3",
+    "ipfs-utils": "^1.2.1",
+    "ipfsd-ctl": "^3.0.0"
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "ipfs-http-client": "^42.0.0",
+    "ipfs-http-client": "^43.0.0",
     "p-queue": "^6.2.1",
     "peer-id": "~0.13.5",
     "peer-info": "^0.17.1"

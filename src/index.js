@@ -49,7 +49,9 @@ class DelegatedPeerRouting {
     try {
       return await this._httpQueue.add(async () => {
         const { addrs } = await this.dht.findPeer(id, {
-          timeout: `${options.timeout}ms`// The api requires specification of the time unit (s/ms)
+          searchParams: {
+            timeout: `${options.timeout}ms`// The api requires specification of the time unit (s/ms)
+          }
         })
 
         const peerInfo = new PeerInfo(PeerId.createFromCID(id))
