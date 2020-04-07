@@ -29,8 +29,7 @@
     "debug": "^4.1.1",
     "ipfs-http-client": "^44.0.0",
     "p-queue": "^6.3.0",
-    "peer-id": "^0.13.11",
-    "peer-info": "^0.17.5"
+    "peer-id": "^0.13.11"
   },
   "contributors": [
     "Jacob Heun <jacobheun@gmail.com>",

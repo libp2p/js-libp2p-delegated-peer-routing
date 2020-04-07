@@ -1,7 +1,6 @@
 'use strict'
 
 const PeerId = require('peer-id')
-const PeerInfo = require('peer-info')
 const createFindPeer = require('ipfs-http-client/src/dht/find-peer')
 const { default: PQueue } = require('p-queue')
 const debug = require('debug')
@@ -36,25 +35,28 @@ class DelegatedPeerRouting {
    * @param {PeerID} id
    * @param {object} options
    * @param {number} options.timeout How long the query can take. Defaults to 30 seconds
-   * @returns {Promise<PeerInfo>}
+   * @returns {Promise<{ id: PeerId, addrs: Multiaddr[] }>}
    */
   async findPeer (id, options = {}) {
-    if (PeerId.isPeerId(id)) {
-      id = id.toB58String()
+    let idStr = id
+    if (PeerId.isPeerId(idStr)) {
+      idStr = id.toB58String()
     }
+
     log('findPeer starts: ' + id)
 
     options.timeout = options.timeout || DEFAULT_TIMEOUT
 
     try {
       return await this._httpQueue.add(async () => {
-        const { addrs } = await this.dht.findPeer(id, {
+        const { addrs } = await this.dht.findPeer(idStr, {
           timeout: options.timeout
         })
 
-        const peerInfo = new PeerInfo(PeerId.createFromCID(id))
-        addrs.forEach(addr => peerInfo.multiaddrs.add(addr))
-        return peerInfo
+        return {
+          id,
+          addrs
+        }
       })
     } catch (err) {
       if (err.message.includes('not found')) {
