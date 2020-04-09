@@ -1,6 +1,6 @@
 {
   "name": "libp2p-delegated-peer-routing",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
   "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
   "main": "src/index.js",
@@ -33,13 +33,13 @@
     "peer-info": "^0.17.1"
   },
   "contributors": [
+    "Jacob Heun <jacobheun@gmail.com>",
     "Alan Shaw <alan.shaw@protocol.ai>",
     "Alex Potsides <alex@achingbrain.net>",
+    "Vasco Santos <vasco.santos@moxy.studio>",
     "David Dias <daviddias.p@gmail.com>",
     "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
-    "Jacob Heun <jacobheun@gmail.com>",
     "Maciej Krüger <mkg20001@gmail.com>",
-    "Marcin Rataj <lidel@lidel.org>",
-    "Vasco Santos <vasco.santos@moxy.studio>"
+    "Marcin Rataj <lidel@lidel.org>"
   ]
 }
