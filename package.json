@@ -21,7 +21,7 @@
     "aegir": "^21.4.5",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "go-ipfs-dep": "0.4.23-3",
+    "go-ipfs-dep": "0.4.23",
     "ipfs-utils": "^1.2.1",
     "ipfsd-ctl": "^3.0.0"
   },
