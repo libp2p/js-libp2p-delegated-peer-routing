@@ -4,20 +4,29 @@
 const chai = require('chai')
 const { expect } = chai
 chai.use(require('dirty-chai'))
-const IPFSFactory = require('ipfsd-ctl')
+const { createFactory } = require('ipfsd-ctl')
 const PeerID = require('peer-id')
+const { isNode } = require('ipfs-utils/src/env')
 
 const DelegatedPeerRouting = require('../src')
-const factory = IPFSFactory.create({ type: 'go' })
+const factory = createFactory({
+  type: 'go',
+  ipfsHttpModule: require('ipfs-http-client'),
+  ipfsBin: isNode ? require('go-ipfs-dep').path() : undefined,
+  test: true,
+  endpoint: 'http://localhost:57483'
+})
 
 async function spawnNode (boostrap = []) {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
-    config: {
-      Bootstrap: boostrap,
-      Discovery: {
-        MDNS: {
-          Enabled: false
+    ipfsOptions: {
+      config: {
+        Bootstrap: boostrap,
+        Discovery: {
+          MDNS: {
+            Enabled: false
+          }
         }
       }
     }
