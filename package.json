@@ -18,19 +18,19 @@
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^21.4.5",
+    "aegir": "^21.7.0",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
     "go-ipfs-dep": "0.4.23-3",
-    "ipfs-utils": "^1.2.1",
+    "ipfs-utils": "^2.2.0",
     "ipfsd-ctl": "^3.0.0"
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "ipfs-http-client": "^43.0.1",
-    "p-queue": "^6.2.1",
-    "peer-id": "~0.13.5",
-    "peer-info": "^0.17.1"
+    "ipfs-http-client": "^44.0.0",
+    "p-queue": "^6.3.0",
+    "peer-id": "^0.13.11",
+    "peer-info": "^0.17.5"
   },
   "contributors": [
     "Jacob Heun <jacobheun@gmail.com>",
