@@ -118,9 +118,9 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const { id, addrs } = await router.findPeer(peerIdToFind.id)
+      const { id, multiaddrs } = await router.findPeer(peerIdToFind.id)
       expect(id).to.exist()
-      expect(addrs).to.exist()
+      expect(multiaddrs).to.exist()
       expect(id).to.eql(peerIdToFind.id)
     })
 
@@ -132,9 +132,9 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const { id, addrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
       expect(id).to.exist()
-      expect(addrs).to.exist()
+      expect(multiaddrs).to.exist()
 
       expect(id.toB58String()).to.eql(peerIdToFind.id)
     })
@@ -147,9 +147,9 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const { id, addrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
       expect(id).to.exist()
-      expect(addrs).to.exist()
+      expect(multiaddrs).to.exist()
 
       expect(id.toB58String()).to.eql(peerIdToFind.id)
     })

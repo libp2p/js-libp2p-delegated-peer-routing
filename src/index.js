@@ -35,7 +35,7 @@ class DelegatedPeerRouting {
    * @param {PeerID} id
    * @param {object} options
    * @param {number} options.timeout How long the query can take. Defaults to 30 seconds
-   * @returns {Promise<{ id: PeerId, addrs: Multiaddr[] }>}
+   * @returns {Promise<{ id: PeerId, multiaddrs: Multiaddr[] }>}
    */
   async findPeer (id, options = {}) {
     let idStr = id
@@ -55,7 +55,7 @@ class DelegatedPeerRouting {
 
         return {
           id,
-          addrs
+          multiaddrs: addrs
         }
       })
     } catch (err) {
