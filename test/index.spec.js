@@ -111,15 +111,17 @@ describe('DelegatedPeerRouting', function () {
   describe('findPeers', () => {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
+
       const router = new DelegatedPeerRouting({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       })
 
-      const peer = await router.findPeer(peerIdToFind.id)
-      expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      const { id, multiaddrs } = await router.findPeer(peerIdToFind.id)
+      expect(id).to.exist()
+      expect(multiaddrs).to.exist()
+      expect(id).to.eql(peerIdToFind.id)
     })
 
     it('should be able to find peers via the delegate with a peerid', async () => {
@@ -130,9 +132,11 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
-      expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      expect(id).to.exist()
+      expect(multiaddrs).to.exist()
+
+      expect(id.toB58String()).to.eql(peerIdToFind.id)
     })
 
     it('should be able to specify a timeout', async () => {
@@ -143,9 +147,11 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
-      expect(peer).to.exist()
-      expect(peer.id.toB58String()).to.eql(peerIdToFind.id)
+      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      expect(id).to.exist()
+      expect(multiaddrs).to.exist()
+
+      expect(id.toB58String()).to.eql(peerIdToFind.id)
     })
 
     it('should not be able to find peers not on the network', async () => {

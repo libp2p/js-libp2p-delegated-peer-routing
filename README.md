@@ -17,9 +17,9 @@ const DelegatedPeerRouting = require('libp2p-delegated-peer-routing')
 const routing = new DelegatedPeerRouing()
 
 try {
-  const peerInfo = await routing.findPeer('peerid')
+  const { id, multiaddrs } = await routing.findPeer('peerid')
 
-  console.log('found peer details', peerInfo)
+  console.log('found peer details', id, multiaddrs)
 } catch (err) {
   console.error(err)
 }
