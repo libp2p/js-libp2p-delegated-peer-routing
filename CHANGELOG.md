@@ -1,3 +1,28 @@
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.4.3...v0.5.0) (2020-04-23)
+
+
+### Chores
+
+* make ipfs-http-client a peer dependency ([#32](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/32)) ([a1b1b5e](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/a1b1b5e))
+* remove-peer-info-from-api ([#25](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/25)) ([f49ddc0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/f49ddc0))
+
+
+### BREAKING CHANGES
+
+* The ipfs-http-client must now be installed
+as a peer dependency. It is no longer included as a dependency
+of this module.
+
+The reason the http-client should be a peerDependency and
+not a dependency is that its API requires knowledge of the
+http-client (we pass in the api endpoint details).
+* findPeer returns id and addrs properties instead of peer-info instance
+
+* chore: address review
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.4.2...v0.4.3) (2020-04-16)
 
