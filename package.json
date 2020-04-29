@@ -24,7 +24,7 @@
     "go-ipfs-dep": "0.5.0",
     "ipfs-utils": "^2.2.0",
     "ipfs-http-client": "^44.0.0",
-    "ipfsd-ctl": "^4.0.1"
+    "ipfsd-ctl": "^4.1.0"
   },
   "peerDependencies": {
     "ipfs-http-client": "^44.0.0"
