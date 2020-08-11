@@ -1,9 +1,7 @@
 /* eslint-env mocha */
 'use strict'
 
-const chai = require('chai')
-const { expect } = chai
-chai.use(require('dirty-chai'))
+const { expect } = require('aegir/utils/chai')
 const { createFactory } = require('ipfsd-ctl')
 const PeerID = require('peer-id')
 const { isNode } = require('ipfs-utils/src/env')
@@ -12,7 +10,7 @@ const DelegatedPeerRouting = require('../src')
 const factory = createFactory({
   type: 'go',
   ipfsHttpModule: require('ipfs-http-client'),
-  ipfsBin: isNode ? require('go-ipfs-dep').path() : undefined,
+  ipfsBin: isNode ? require('go-ipfs').path() : undefined,
   test: true,
   endpoint: 'http://localhost:57483'
 })
