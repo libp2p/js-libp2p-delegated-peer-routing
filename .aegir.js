@@ -13,7 +13,7 @@ module.exports = {
         }, {
           type: 'go',
           ipfsHttpModule: require('ipfs-http-client'),
-          ipfsBin: require('go-ipfs-dep').path(),
+          ipfsBin: require('go-ipfs').path(),
           test: true
         })
 
