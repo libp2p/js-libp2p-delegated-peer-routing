@@ -166,4 +166,44 @@ describe('DelegatedPeerRouting', function () {
       expect(peer).to.not.exist()
     })
   })
+
+  describe('query', () => {
+    it('should be able to query for the closest peers', async () => {
+      const opts = delegatedNode.apiAddr.toOptions()
+
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      const results = []
+      for await (const result of router.getClosestPeers(PeerID.createFromB58String(peerIdToFind.id).id)) {
+        results.push(result)
+      }
+
+      // we should be closest to the 2 other peers
+      expect(results.length).to.equal(2)
+    })
+
+    it('should find closest peers even if the peer doesnt exist', async () => {
+      const opts = delegatedNode.apiAddr.toOptions()
+
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      const peerId = await PeerID.create({ keyType: 'ed25519' })
+
+      const results = []
+      for await (const result of router.getClosestPeers(peerId.id)) {
+        results.push(result)
+      }
+
+      // we should be closest to the 2 other peers
+      expect(results.length).to.equal(2)
+    })
+  })
 })

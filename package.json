@@ -28,9 +28,12 @@
     "ipfs-http-client": "^44.0.0"
   },
   "dependencies": {
+    "cids": "^1.0.0",
     "debug": "^4.1.1",
+    "p-defer": "^3.0.0",
     "p-queue": "^6.3.0",
-    "peer-id": "^0.14.0"
+    "peer-id": "^0.14.0",
+    "uint8arrays": "^1.1.0"
   },
   "contributors": [
     "Jacob Heun <jacobheun@gmail.com>",
