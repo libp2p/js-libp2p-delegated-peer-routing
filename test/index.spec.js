@@ -5,6 +5,7 @@ const { expect } = require('aegir/utils/chai')
 const { createFactory } = require('ipfsd-ctl')
 const PeerID = require('peer-id')
 const { isNode } = require('ipfs-utils/src/env')
+const concat = require('it-all')
 
 const DelegatedPeerRouting = require('../src')
 const factory = createFactory({
@@ -177,13 +178,19 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const results = []
-      for await (const result of router.getClosestPeers(PeerID.createFromB58String(peerIdToFind.id).id)) {
-        results.push(result)
-      }
+      const nodeId = await delegatedNode.api.id()
+      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+
+      const key = PeerID.createFromB58String(peerIdToFind.id).id
+      const results = await concat(router.getClosestPeers(key))
 
       // we should be closest to the 2 other peers
       expect(results.length).to.equal(2)
+      results.forEach(result => {
+        // shouldnt be the delegate
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(result.multiaddrs).to.be.an('array')
+      })
     })
 
     it('should find closest peers even if the peer doesnt exist', async () => {
@@ -195,15 +202,19 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       })
 
-      const peerId = await PeerID.create({ keyType: 'ed25519' })
+      const nodeId = await delegatedNode.api.id()
+      const delegatePeerId = PeerID.createFromCID(nodeId.id)
 
-      const results = []
-      for await (const result of router.getClosestPeers(peerId.id)) {
-        results.push(result)
-      }
+      const peerId = await PeerID.create({ keyType: 'ed25519' })
+      const results = await concat(router.getClosestPeers(peerId.id))
 
       // we should be closest to the 2 other peers
       expect(results.length).to.equal(2)
+      results.forEach(result => {
+        // shouldnt be the delegate
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(result.multiaddrs).to.be.an('array')
+      })
     })
   })
 })
