@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>libp2p-delegated-peer-routing 0.6.0 | Documentation</title>
+  <title>libp2p-delegated-peer-routing 0.6.1 | Documentation</title>
   <meta name='description' content='Leverage other peers in the libp2p network to perform Peer Routing calls.'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>libp2p-delegated-peer-routing</h3>
-          <div class='mb1'><code>0.6.0</code></div>
+          <div class='mb1'><code>0.6.1</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -32,6 +32,16 @@
                   href='#findpeer'
                   class="">
                   findPeer
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getclosestpeers'
+                  class="">
+                  getClosestPeers
                   
                 </a>
                 
@@ -57,7 +67,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-delegated-peer-routing/blob/b90d1ac7a015f054029d3417cdf36d2a606ef3f0/src/index.js#L40-L70'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-delegated-peer-routing/blob/31368739ce1857602b713ecf40cf9d9737ed4984/src/index.js#L46-L76'>
       <span>src/index.js</span>
       </a>
     
@@ -132,6 +142,118 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;{id: PeerId, multiaddrs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;Multiaddr>}></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getclosestpeers'>
+      getClosestPeers
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-delegated-peer-routing/blob/31368739ce1857602b713ecf40cf9d9737ed4984/src/index.js#L85-L135'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Attempt to find the closest peers on the network to the given key</p>
+
+    <div class='pre p1 fill-light mt0'>getClosestPeers(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?): AsyncIterable&#x3C;{id: PeerId, multiaddrs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;Multiaddr>}></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>key</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a>)</code>
+	    A CID like key
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.timeout</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>30e3</code>)
+  </td>
+  <td class='break-word'><span>How long the query can take.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AsyncIterable&#x3C;{id: PeerId, multiaddrs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;Multiaddr>}></code>:
         
 
       
