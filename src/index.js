@@ -86,7 +86,7 @@ class DelegatedPeerRouting {
     key = new CID(key)
     const keyStr = key.toString()
 
-    log('query starts:', keyStr)
+    log('getClosestPeers starts:', keyStr)
     options.timeout = options.timeout || DEFAULT_TIMEOUT
 
     const onStart = defer()
@@ -122,15 +122,15 @@ class DelegatedPeerRouting {
             }
             break
           default:
-            log('unhandled response', result)
+            log('getClosestPeers unhandled response', result)
         }
       }
     } catch (err) {
-      log.error('findProviders errored:', err)
+      log.error('getClosestPeers errored:', err)
       throw err
     } finally {
       onFinish.resolve()
-      log('findProviders finished:', keyStr)
+      log('getClosestPeers finished:', keyStr)
     }
   }
 }
