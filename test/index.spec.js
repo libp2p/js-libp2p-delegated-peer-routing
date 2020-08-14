@@ -5,6 +5,7 @@ const { expect } = require('aegir/utils/chai')
 const { createFactory } = require('ipfsd-ctl')
 const PeerID = require('peer-id')
 const { isNode } = require('ipfs-utils/src/env')
+const concat = require('it-all')
 
 const DelegatedPeerRouting = require('../src')
 const factory = createFactory({
@@ -164,6 +165,56 @@ describe('DelegatedPeerRouting', function () {
       // so we'll test with it.
       const peer = await router.findPeer('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64')
       expect(peer).to.not.exist()
+    })
+  })
+
+  describe('query', () => {
+    it('should be able to query for the closest peers', async () => {
+      const opts = delegatedNode.apiAddr.toOptions()
+
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      const nodeId = await delegatedNode.api.id()
+      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+
+      const key = PeerID.createFromB58String(peerIdToFind.id).id
+      const results = await concat(router.getClosestPeers(key))
+
+      // we should be closest to the 2 other peers
+      expect(results.length).to.equal(2)
+      results.forEach(result => {
+        // shouldnt be the delegate
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(result.multiaddrs).to.be.an('array')
+      })
+    })
+
+    it('should find closest peers even if the peer doesnt exist', async () => {
+      const opts = delegatedNode.apiAddr.toOptions()
+
+      const router = new DelegatedPeerRouting({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      })
+
+      const nodeId = await delegatedNode.api.id()
+      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+
+      const peerId = await PeerID.create({ keyType: 'ed25519' })
+      const results = await concat(router.getClosestPeers(peerId.id))
+
+      // we should be closest to the 2 other peers
+      expect(results.length).to.equal(2)
+      results.forEach(result => {
+        // shouldnt be the delegate
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(result.multiaddrs).to.be.an('array')
+      })
     })
   })
 })
