@@ -14,6 +14,10 @@ const CONCURRENT_HTTP_REQUESTS = 4
 
 class DelegatedPeerRouting {
   constructor (client) {
+    if (client == null) {
+      throw new Error('missing ipfs http client')
+    }
+
     this._client = client
 
     // limit concurrency to avoid request flood in web browser
@@ -23,9 +27,9 @@ class DelegatedPeerRouting {
     })
 
     const {
+      protocol,
       host,
-      port,
-      protocol
+      port
     } = client.getEndpointConfig()
 
     log(`enabled DelegatedPeerRouting via ${protocol}://${host}:${port}`)

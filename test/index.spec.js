@@ -73,7 +73,11 @@ describe('DelegatedPeerRouting', function () {
   })
 
   describe('create', () => {
-    it('should accept an http api client instance', () => {
+    it('should require an http api client instance at construction time', () => {
+      expect(() => new DelegatedPeerRouting()).to.throw()
+    })
+
+    it('should accept an http api client instance at construction time', () => {
       const client = ipfsHttpClient({
         protocol: 'http',
         port: 8000,
