@@ -1,3 +1,13 @@
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.6.1...v0.7.0) (2020-08-26)
+
+
+### Bug Fixes
+
+* accept http client instance ([#39](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/39)) ([bd9ecc3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/bd9ecc3))
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.6.0...v0.6.1) (2020-08-14)
 
