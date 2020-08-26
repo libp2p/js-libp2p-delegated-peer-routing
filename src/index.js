@@ -1,8 +1,6 @@
 'use strict'
 
 const PeerId = require('peer-id')
-const createFindPeer = require('ipfs-http-client/src/dht/find-peer')
-const createQuery = require('ipfs-http-client/src/dht/query')
 const CID = require('cids')
 const { default: PQueue } = require('p-queue')
 const defer = require('p-defer')
@@ -12,27 +10,29 @@ const log = debug('libp2p-delegated-peer-routing')
 log.error = debug('libp2p-delegated-peer-routing:error')
 
 const DEFAULT_TIMEOUT = 30e3 // 30 second default
-const DEFAULT_IPFS_API = {
-  protocol: 'https',
-  port: 443,
-  host: 'node0.delegate.ipfs.io'
-}
 const CONCURRENT_HTTP_REQUESTS = 4
 
 class DelegatedPeerRouting {
-  constructor (api) {
-    this.api = Object.assign({}, DEFAULT_IPFS_API, api)
-    this.dht = {
-      findPeer: createFindPeer(this.api),
-      getClosestPeers: createQuery(this.api)
+  constructor (client) {
+    if (client == null) {
+      throw new Error('missing ipfs http client')
     }
+
+    this._client = client
 
     // limit concurrency to avoid request flood in web browser
     // https://github.com/libp2p/js-libp2p-delegated-content-routing/issues/12
     this._httpQueue = new PQueue({
       concurrency: CONCURRENT_HTTP_REQUESTS
     })
-    log(`enabled DelegatedPeerRouting via ${this.api.protocol}://${this.api.host}:${this.api.port}`)
+
+    const {
+      protocol,
+      host,
+      port
+    } = client.getEndpointConfig()
+
+    log(`enabled DelegatedPeerRouting via ${protocol}://${host}:${port}`)
   }
 
   /**
@@ -55,7 +55,7 @@ class DelegatedPeerRouting {
 
     try {
       return await this._httpQueue.add(async () => {
-        const { addrs } = await this.dht.findPeer(idStr, {
+        const { addrs } = await this._client.dht.findPeer(idStr, {
           timeout: options.timeout
         })
 
@@ -102,7 +102,7 @@ class DelegatedPeerRouting {
 
       const peers = new Map()
 
-      for await (const result of this.dht.getClosestPeers(keyStr, {
+      for await (const result of this._client.dht.query(keyStr, {
         timeout: options.timeout
       })) {
         switch (result.type) {
