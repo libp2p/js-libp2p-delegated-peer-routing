@@ -23,12 +23,12 @@ const DelegatedPeerRouting = require('libp2p-delegated-peer-routing')
 const ipfsHttpClient = require('ipfs-http-client')
 
 // default is to use ipfs.io
-const routing = new DelegatedPeerRouing(ipfsHttpClient{
+const routing = new DelegatedPeerRouing(ipfsHttpClient({
   // use default api settings
   protocol: 'https',
   port: 443,
   host: 'node0.delegate.ipfs.io'
-})
+}))
 
 try {
   const { id, multiaddrs } = await routing.findPeer('peerid')
