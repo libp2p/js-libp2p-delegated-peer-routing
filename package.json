@@ -36,6 +36,9 @@
     "p-queue": "^6.3.0",
     "peer-id": "^0.14.0"
   },
+  "peerDependencies": {
+    "ipfs-http-client": "^46.0.0"
+  },
   "browser": {
     "go-ipfs": false
   },
