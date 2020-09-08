@@ -13,6 +13,11 @@ const DEFAULT_TIMEOUT = 30e3 // 30 second default
 const CONCURRENT_HTTP_REQUESTS = 4
 
 class DelegatedPeerRouting {
+  /**
+   * Create a new DelegatedPeerRouting instance.
+   *
+   * @param {object} client - an instance of the ipfs-http-client module
+   */
   constructor (client) {
     if (client == null) {
       throw new Error('missing ipfs http client')
