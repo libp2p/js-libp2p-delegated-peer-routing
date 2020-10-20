@@ -7,6 +7,7 @@ const PeerID = require('peer-id')
 const { isNode } = require('ipfs-utils/src/env')
 const concat = require('it-all')
 const ipfsHttpClient = require('ipfs-http-client')
+const delay = require('delay')
 
 const DelegatedPeerRouting = require('../src')
 const factory = createFactory({
@@ -14,6 +15,7 @@ const factory = createFactory({
   ipfsHttpModule: require('ipfs-http-client'),
   ipfsBin: isNode ? require('go-ipfs').path() : undefined,
   test: true,
+  disposable: true,
   endpoint: 'http://localhost:57483'
 })
 
@@ -22,12 +24,7 @@ async function spawnNode (boostrap = []) {
     // Lock down the nodes so testing can be deterministic
     ipfsOptions: {
       config: {
-        Bootstrap: boostrap,
-        Discovery: {
-          MDNS: {
-            Enabled: false
-          }
-        }
+        Bootstrap: boostrap
       }
     }
   })
@@ -36,6 +33,18 @@ async function spawnNode (boostrap = []) {
   return {
     node,
     id
+  }
+}
+
+async function waitForPeer (ipfs, remote) {
+  for (let i = 0; i < 5; i++) {
+    const peers = await ipfs.swarm.peers()
+
+    if (peers.find(({ peer }) => peer === remote.id)) {
+      return
+    }
+
+    await delay(1000)
   }
 }
 
@@ -59,9 +68,15 @@ describe('DelegatedPeerRouting', function () {
     nodeToFind = local.node
     peerIdToFind = local.id
 
+    await waitForPeer(local.node.api, bootstrap.id)
+    await waitForPeer(bootstrap.node.api, local.id)
+
     // Spawn the delegate node and bootstrap the bootstrapper node
     const delegate = await spawnNode(bootstrapId.addresses)
     delegatedNode = delegate.node
+
+    await waitForPeer(delegate.node.api, bootstrap.id)
+    await waitForPeer(bootstrap.node.api, delegate.id)
   })
 
   after(() => {

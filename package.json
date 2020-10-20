@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "aegir": "^28.0.2",
+    "delay": "^4.4.0",
     "go-ipfs": "^0.7.0",
     "ipfs-http-client": "^47.0.1",
     "ipfs-utils": "^4.0.0",
