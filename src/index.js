@@ -45,7 +45,7 @@ class DelegatedPeerRouting {
    *
    * @param {PeerID} id
    * @param {object} options
-   * @param {number} options.timeout How long the query can take. Defaults to 30 seconds
+   * @param {number} options.timeout - How long the query can take. Defaults to 30 seconds
    * @returns {Promise<{ id: PeerId, multiaddrs: Multiaddr[] }>}
    */
   async findPeer (id, options = {}) {
@@ -82,9 +82,10 @@ class DelegatedPeerRouting {
 
   /**
    * Attempt to find the closest peers on the network to the given key
-   * @param {Uint8Array} key A CID like key
+   *
+   * @param {Uint8Array} key - A CID like key
    * @param {object} [options]
-   * @param {number} [options.timeout=30e3] How long the query can take.
+   * @param {number} [options.timeout=30e3] - How long the query can take.
    * @returns {AsyncIterable<{ id: PeerId, multiaddrs: Multiaddr[] }>}
    */
   async * getClosestPeers (key, options = {}) {
