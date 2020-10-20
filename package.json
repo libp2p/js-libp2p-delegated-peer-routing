@@ -22,10 +22,10 @@
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^26.0.0",
-    "go-ipfs": "0.6.0",
+    "aegir": "^28.0.2",
+    "go-ipfs": "^0.7.0",
     "ipfs-http-client": "^47.0.1",
-    "ipfs-utils": "^3.0.0",
+    "ipfs-utils": "^4.0.0",
     "ipfsd-ctl": "^7.0.0",
     "it-all": "^1.0.2"
   },
