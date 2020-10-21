@@ -26,7 +26,7 @@
     "go-ipfs": "^0.7.0",
     "ipfs-http-client": "^47.0.1",
     "ipfs-utils": "^4.0.0",
-    "ipfsd-ctl": "ipfs/js-ipfsd-ctl#fix/guard-on-null-subprocess",
+    "ipfsd-ctl": "^7.0.0",
     "it-all": "^1.0.2"
   },
   "dependencies": {
