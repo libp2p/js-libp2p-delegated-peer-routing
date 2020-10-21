@@ -14,20 +14,16 @@ const factory = createFactory({
   ipfsHttpModule: require('ipfs-http-client'),
   ipfsBin: isNode ? require('go-ipfs').path() : undefined,
   test: true,
+  disposable: true,
   endpoint: 'http://localhost:57483'
 })
 
-async function spawnNode (boostrap = []) {
+async function spawnNode (bootstrap = []) {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
     ipfsOptions: {
       config: {
-        Bootstrap: boostrap,
-        Discovery: {
-          MDNS: {
-            Enabled: false
-          }
-        }
+        Bootstrap: bootstrap
       }
     }
   })
@@ -107,7 +103,10 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const { id, multiaddrs } = await router.findPeer(peerIdToFind.id)
+      const peer = await router.findPeer(peerIdToFind.id)
+      expect(peer).to.be.ok()
+
+      const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
       expect(id).to.eql(peerIdToFind.id)
@@ -121,7 +120,10 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      expect(peer).to.be.ok()
+
+      const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
@@ -136,7 +138,10 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const { id, multiaddrs } = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      expect(peer).to.be.ok()
+
+      const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
