@@ -18,12 +18,12 @@ const factory = createFactory({
   endpoint: 'http://localhost:57483'
 })
 
-async function spawnNode (boostrap = []) {
+async function spawnNode (bootstrap = []) {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
     ipfsOptions: {
       config: {
-        Bootstrap: boostrap
+        Bootstrap: bootstrap
       }
     }
   })
