@@ -39,7 +39,7 @@ try {
   console.error(err)
 }
 
-const peerId = await PeerID.create({ keyType: 'ed25519' })
+const peerId = await PeerId.create({ keyType: 'ed25519' })
 for await (const { id, multiaddrs } of routing.getClosestPeers(peerId.id)) {
   console.log('found closest peer', id, multiaddrs)
 }
