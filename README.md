@@ -2,7 +2,7 @@
 
 Leverage other peers in the network to perform Peer Routing calls.
 
-Requires access to `/api/v0/dht/findpeer` HTTP API endpoint of the delegate node.
+Requires access to `/api/v0/dht/findpeer` and `/api/v0/dht/query` HTTP API endpoints of the delegate node.
 
 ## Lead Maintainer
 
@@ -19,6 +19,7 @@ npm install ipfs-http-client libp2p-delegated-peer-routing
 ## Example
 
 ```js
+const PeerId = require('peer-id')
 const DelegatedPeerRouting = require('libp2p-delegated-peer-routing')
 const ipfsHttpClient = require('ipfs-http-client')
 
@@ -37,6 +38,12 @@ try {
 } catch (err) {
   console.error(err)
 }
+
+const peerId = await PeerID.create({ keyType: 'ed25519' })
+for await (const { id, multiaddrs } of routing.getClosestPeers(peerId.id)) {
+  console.log('found closest peer', id, multiaddrs)
+}
+
 ```
 
 ## License
