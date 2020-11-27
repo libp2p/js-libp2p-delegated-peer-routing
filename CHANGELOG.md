@@ -1,3 +1,37 @@
+## [0.8.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.4.0...v0.8.1) (2020-11-27)
+
+
+### Bug Fixes
+
+* accept http client instance ([#39](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/39)) ([bd9ecc3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/bd9ecc311e87604d489cae5e832691bd1dec7429))
+
+
+### chore
+
+* make ipfs-http-client a peer dependency ([#32](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/32)) ([a1b1b5e](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/a1b1b5ec59af97f5ab708c757808940dbcb070d9))
+* remove-peer-info-from-api ([#25](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/25)) ([f49ddc0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/f49ddc0740963587fc0976c2a627f241bd045abf))
+
+
+### Features
+
+* add support for api dht/query endpoint ([#37](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/37)) ([6fa569c](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/6fa569cdaaeca3ca200af8b3c10b2a098faff5c1))
+
+
+### BREAKING CHANGES
+
+* The ipfs-http-client must now be installed
+as a peer dependency. It is no longer included as a dependency
+of this module.
+
+The reason the http-client should be a peerDependency and
+not a dependency is that its API requires knowledge of the
+http-client (we pass in the api endpoint details).
+* findPeer returns id and addrs properties instead of peer-info instance
+
+* chore: address review
+
+
+
 # [0.8.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.7.0...v0.8.0) (2020-10-21)
 
 
