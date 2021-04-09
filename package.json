@@ -22,16 +22,16 @@
     "coverage": "aegir coverage"
   },
   "devDependencies": {
-    "aegir": "^29.1.0",
-    "go-ipfs": "^0.7.0",
-    "ipfs-http-client": "^48.1.2",
-    "ipfs-utils": "^5.0.1",
-    "ipfsd-ctl": "^7.0.0",
+    "aegir": "^33.0.0",
+    "go-ipfs": "^0.8.0",
+    "ipfs-http-client": "^49.0.4",
+    "ipfs-utils": "^6.0.6",
+    "ipfsd-ctl": "^7.0.2",
     "it-all": "^1.0.2"
   },
   "dependencies": {
     "cids": "^1.0.0",
-    "debug": "^4.1.1",
+    "debug": "^4.3.1",
     "p-defer": "^3.0.0",
     "p-queue": "^6.3.0",
     "peer-id": "^0.14.0"
