@@ -1,0 +1,50 @@
+name: ci
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm install
+    - run: npx aegir lint
+    - run: npx aegir dep-check
+    - run: npx aegir build
+  test-node:
+    needs: check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        node: [14, 15]
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      # modules with pre-built binaries may not have deployed versions for bleeding-edge node so this lets us fall back to building from source
+      - run: npm install node-pre-gyp -g
+      - run: npm install
+      - run: npx nyc --reporter=lcov aegir test -t node -- --bail
+      - uses: codecov/codecov-action@v1
+  test-chrome:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npx aegir test -t browser -t webworker --bail
+  test-firefox:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npx aegir test -t browser -t webworker --bail -- --browsers FirefoxHeadless
