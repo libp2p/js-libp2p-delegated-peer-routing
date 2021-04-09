@@ -1,3 +1,7 @@
+# [0.9.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.8.1...v0.9.0) (2021-04-09)
+
+
+
 ## [0.8.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.8.1...v0.8.2) (2020-11-30)
 
 
