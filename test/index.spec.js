@@ -74,7 +74,7 @@ describe('DelegatedPeerRouting', function () {
     })
 
     it('should accept an http api client instance at construction time', () => {
-      const client = ipfsHttpClient({
+      const client = ipfsHttpClient.create({
         protocol: 'http',
         port: 8000,
         host: 'localhost'
@@ -97,7 +97,7 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -114,7 +114,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to find peers via the delegate with a peerid', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -132,7 +132,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -150,7 +150,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should not be able to find peers not on the network', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -167,7 +167,7 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to query for the closest peers', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -191,7 +191,7 @@ describe('DelegatedPeerRouting', function () {
     it('should find closest peers even if the peer doesnt exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host

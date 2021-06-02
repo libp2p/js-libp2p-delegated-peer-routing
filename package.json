@@ -24,17 +24,17 @@
   "devDependencies": {
     "aegir": "^33.0.0",
     "go-ipfs": "^0.8.0",
-    "ipfs-http-client": "^49.0.4",
-    "ipfs-utils": "^6.0.6",
-    "ipfsd-ctl": "^7.0.2",
+    "ipfs-http-client": "^50.1.0",
+    "ipfs-utils": "^8.1.2",
+    "ipfsd-ctl": "^8.0.2",
     "it-all": "^1.0.2"
   },
   "dependencies": {
-    "cids": "^1.0.0",
     "debug": "^4.3.1",
+    "multiformats": "^9.0.2",
     "p-defer": "^3.0.0",
     "p-queue": "^6.3.0",
-    "peer-id": "^0.14.0"
+    "peer-id": "libp2p/js-peer-id#chore/update-to-new-multiformats"
   },
   "browser": {
     "go-ipfs": false

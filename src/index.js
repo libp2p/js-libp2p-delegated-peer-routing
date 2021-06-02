@@ -1,7 +1,7 @@
 'use strict'
 
 const PeerId = require('peer-id')
-const CID = require('cids')
+const { CID } = require('multiformats')
 const { default: PQueue } = require('p-queue')
 const defer = require('p-defer')
 const debug = require('debug')
@@ -89,7 +89,7 @@ class DelegatedPeerRouting {
    * @returns {AsyncIterable<{ id: PeerId, multiaddrs: Multiaddr[] }>}
    */
   async * getClosestPeers (key, options = {}) {
-    key = new CID(key)
+    key = CID.decode(key)
     const keyStr = key.toString()
 
     log('getClosestPeers starts:', keyStr)
