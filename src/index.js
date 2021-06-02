@@ -116,14 +116,14 @@ class DelegatedPeerRouting {
             // Track the addresses, so we can yield them when done
             result.responses.forEach(response => {
               peers.set(response.id, {
-                id: PeerId.createFromCID(response.id),
+                id: PeerId.createFromB58String(response.id),
                 multiaddrs: response.addrs
               })
             })
             break
           case 2: // Final Peer
             yield peers.get(result.id.string) || {
-              id: PeerId.createFromCID(result.id),
+              id: PeerId.createFromB58String(result.id),
               multiaddrs: []
             }
             break
