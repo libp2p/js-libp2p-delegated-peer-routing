@@ -174,7 +174,7 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+      const delegatePeerId = PeerID.createFromB58String(nodeId.id)
 
       const key = PeerID.createFromB58String(peerIdToFind.id).id
       const results = await concat(router.getClosestPeers(key))
@@ -188,7 +188,7 @@ describe('DelegatedPeerRouting', function () {
       })
     })
 
-    it('should find closest peers even if the peer doesnt exist', async () => {
+    it('should find closest peers even if the peer does not exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
       const router = new DelegatedPeerRouting(ipfsHttpClient.create({
@@ -198,7 +198,7 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+      const delegatePeerId = PeerID.createFromB58String(nodeId.id)
 
       const peerId = await PeerID.create({ keyType: 'ed25519' })
       const results = await concat(router.getClosestPeers(peerId.id))
