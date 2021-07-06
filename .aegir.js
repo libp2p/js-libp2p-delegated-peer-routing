@@ -8,7 +8,7 @@ module.exports = {
     before: async () => {
       server = createServer({
         host: '127.0.0.1',
-        port: 57483
+        port: 57583
       }, {
         type: 'go',
         ipfsHttpModule: require('ipfs-http-client'),

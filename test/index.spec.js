@@ -15,7 +15,7 @@ const factory = createFactory({
   ipfsBin: isNode ? require('go-ipfs').path() : undefined,
   test: true,
   disposable: true,
-  endpoint: 'http://localhost:57483'
+  endpoint: 'http://localhost:57583'
 })
 
 async function spawnNode (bootstrap = []) {
@@ -120,7 +120,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id))
       expect(peer).to.be.ok()
 
       const { id, multiaddrs } = peer
@@ -138,7 +138,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id), { timeout: 2000 })
       expect(peer).to.be.ok()
 
       const { id, multiaddrs } = peer
@@ -174,9 +174,9 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromB58String(nodeId.id)
+      const delegatePeerId = PeerID.parse(nodeId.id)
 
-      const key = PeerID.createFromB58String(peerIdToFind.id).id
+      const key = PeerID.parse(peerIdToFind.id).id
       const results = await concat(router.getClosestPeers(key))
 
       // we should be closest to the 2 other peers
@@ -198,7 +198,7 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromB58String(nodeId.id)
+      const delegatePeerId = PeerID.parse(nodeId.id)
 
       const peerId = await PeerID.create({ keyType: 'ed25519' })
       const results = await concat(router.getClosestPeers(peerId.id))
