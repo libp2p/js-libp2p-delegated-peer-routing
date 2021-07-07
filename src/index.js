@@ -1,7 +1,7 @@
 'use strict'
 
 const PeerId = require('peer-id')
-const CID = require('cids')
+const { base58btc } = require('multiformats/bases/base58')
 const { default: PQueue } = require('p-queue')
 const defer = require('p-defer')
 const debug = require('debug')
@@ -89,8 +89,7 @@ class DelegatedPeerRouting {
    * @returns {AsyncIterable<{ id: PeerId, multiaddrs: Multiaddr[] }>}
    */
   async * getClosestPeers (key, options = {}) {
-    key = new CID(key)
-    const keyStr = key.toString()
+    const keyStr = base58btc.encode(key).substring(1)
 
     log('getClosestPeers starts:', keyStr)
     options.timeout = options.timeout || DEFAULT_TIMEOUT
@@ -116,7 +115,7 @@ class DelegatedPeerRouting {
             // Track the addresses, so we can yield them when done
             result.responses.forEach(response => {
               peers.set(response.id, {
-                id: PeerId.createFromCID(response.id),
+                id: PeerId.parse(response.id),
                 multiaddrs: response.addrs
               })
             })

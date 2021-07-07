@@ -15,7 +15,7 @@ const factory = createFactory({
   ipfsBin: isNode ? require('go-ipfs').path() : undefined,
   test: true,
   disposable: true,
-  endpoint: 'http://localhost:57483'
+  endpoint: 'http://localhost:57583'
 })
 
 async function spawnNode (bootstrap = []) {
@@ -74,7 +74,7 @@ describe('DelegatedPeerRouting', function () {
     })
 
     it('should accept an http api client instance at construction time', () => {
-      const client = ipfsHttpClient({
+      const client = ipfsHttpClient.create({
         protocol: 'http',
         port: 8000,
         host: 'localhost'
@@ -97,7 +97,7 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -114,13 +114,13 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to find peers via the delegate with a peerid', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id))
+      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id))
       expect(peer).to.be.ok()
 
       const { id, multiaddrs } = peer
@@ -132,13 +132,13 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.createFromB58String(peerIdToFind.id), { timeout: 2000 })
+      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id), { timeout: 2000 })
       expect(peer).to.be.ok()
 
       const { id, multiaddrs } = peer
@@ -150,7 +150,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should not be able to find peers not on the network', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -167,16 +167,16 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to query for the closest peers', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+      const delegatePeerId = PeerID.parse(nodeId.id)
 
-      const key = PeerID.createFromB58String(peerIdToFind.id).id
+      const key = PeerID.parse(peerIdToFind.id).id
       const results = await concat(router.getClosestPeers(key))
 
       // we should be closest to the 2 other peers
@@ -188,17 +188,17 @@ describe('DelegatedPeerRouting', function () {
       })
     })
 
-    it('should find closest peers even if the peer doesnt exist', async () => {
+    it('should find closest peers even if the peer does not exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient({
+      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.createFromCID(nodeId.id)
+      const delegatePeerId = PeerID.parse(nodeId.id)
 
       const peerId = await PeerID.create({ keyType: 'ed25519' })
       const results = await concat(router.getClosestPeers(peerId.id))
