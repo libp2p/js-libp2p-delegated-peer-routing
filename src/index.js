@@ -122,7 +122,7 @@ class DelegatedPeerRouting {
             break
           case 2: // Final Peer
             yield peers.get(result.id.string) || {
-              id: PeerId.createFromCID(result.id),
+              id: PeerId.parse(result.id),
               multiaddrs: []
             }
             break
