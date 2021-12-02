@@ -34,7 +34,7 @@
     "debug": "^4.3.1",
     "multiformats": "^9.0.2",
     "p-defer": "^3.0.0",
-    "p-queue": "^6.3.0",
+    "p-queue": "^7.1.0",
     "peer-id": "^0.16.0"
   },
   "browser": {
