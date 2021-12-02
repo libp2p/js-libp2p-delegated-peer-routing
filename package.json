@@ -33,7 +33,7 @@
   "dependencies": {
     "debug": "^4.3.1",
     "multiformats": "^9.0.2",
-    "p-defer": "^3.0.0",
+    "p-defer": "^4.0.0",
     "p-queue": "^6.3.0",
     "peer-id": "^0.16.0"
   },
