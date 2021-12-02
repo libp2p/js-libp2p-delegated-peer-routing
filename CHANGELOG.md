@@ -1,3 +1,17 @@
+# [0.11.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.10.0...v0.11.0) (2021-12-02)
+
+
+### chore
+
+* update peer-id dep ([#47](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/47)) ([1664f69](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/1664f69b7234e8bc41dc6641ebd70fb8fa1b0129))
+
+
+### BREAKING CHANGES
+
+* requires node 15
+
+
+
 # [0.10.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.9.0...v0.10.0) (2021-07-07)
 
 
