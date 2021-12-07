@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.11.0...v0.11.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* yield closer peers as they arrive ([#51](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/51)) ([1892785](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/1892785d70a5d709aac66f2494f79e7768a2b7c4))
+
+
+
 # [0.11.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.10.0...v0.11.0) (2021-12-02)
 
 
