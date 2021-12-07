@@ -105,25 +105,16 @@ class DelegatedPeerRouting {
     try {
       await onStart.promise
 
-      const peers = new Map()
-
       for await (const result of this._client.dht.query(keyStr, {
         timeout: options.timeout
       })) {
         switch (result.type) {
           case 1: // Found Closer
-            // Track the addresses, so we can yield them when done
-            result.responses.forEach(response => {
-              peers.set(response.id, {
+            for (const response of result.responses) {
+              yield {
                 id: PeerId.parse(response.id),
                 multiaddrs: response.addrs
-              })
-            })
-            break
-          case 2: // Final Peer
-            yield peers.get(result.id.string) || {
-              id: PeerId.parse(result.id),
-              multiaddrs: []
+              }
             }
             break
           default:
