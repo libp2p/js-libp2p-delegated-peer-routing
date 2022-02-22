@@ -1,53 +1,151 @@
 {
-  "name": "libp2p-delegated-peer-routing",
+  "name": "@libp2p/delegated-peer-routing",
   "version": "0.11.1",
   "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
-  "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
-  "main": "src/index.js",
-  "repository": "git@github.com:libp2p/js-libp2p-delegated-peer-routing.git",
-  "license": "MIT",
-  "private": false,
+  "license": "Apache-2.0 OR MIT",
+  "homepage": "https://github.com/libp2p/js-libp2p-delegated-peer-routing#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/libp2p/js-libp2p-delegated-peer-routing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "type": "module",
+  "types": "./dist/src/index.d.ts",
   "files": [
     "src",
-    "dist"
+    "dist/src",
+    "!dist/test",
+    "!**/*.tsbuildinfo"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/src/index.js"
+    }
+  },
+  "eslintConfig": {
+    "extends": "ipfs",
+    "parserOptions": {
+      "sourceType": "module"
+    }
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "releaseRules": [
+            {
+              "breaking": true,
+              "release": "major"
+            },
+            {
+              "revert": true,
+              "release": "patch"
+            },
+            {
+              "type": "feat",
+              "release": "minor"
+            },
+            {
+              "type": "fix",
+              "release": "patch"
+            },
+            {
+              "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "docs",
+              "release": "patch"
+            },
+            {
+              "type": "test",
+              "release": "patch"
+            },
+            {
+              "scope": "no-release",
+              "release": false
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "chore",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "docs",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "test",
+                "section": "Tests"
+              }
+            ]
+          }
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
   "scripts": {
     "lint": "aegir lint",
-    "prepare": "npm run build",
-    "build": "aegir build",
-    "test": "aegir test -f test/**/*.spec.js",
-    "test:node": "aegir test -t node -f test/**/*.spec.js",
-    "release": "aegir release",
-    "release-minor": "aegir release --type minor",
-    "release-major": "aegir release --type major",
-    "coverage": "aegir coverage"
-  },
-  "devDependencies": {
-    "aegir": "^36.0.2",
-    "go-ipfs": "^0.10.0",
-    "ipfs-http-client": "^54.0.2",
-    "ipfs-utils": "^9.0.2",
-    "ipfsd-ctl": "^10.0.5",
-    "it-all": "^1.0.2"
+    "dep-check": "aegir dep-check dist/src/**/*.js dist/test/**/*.js",
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "aegir test -f ./dist/test/*.js -f ./dist/test/**/*.js",
+    "test:chrome": "npm run test -- -t browser --cov",
+    "test:chrome-webworker": "npm run test -- -t webworker",
+    "test:firefox": "npm run test -- -t browser -- --browser firefox",
+    "test:firefox-webworker": "npm run test -- -t webworker -- --browser firefox",
+    "test:node": "npm run test -- -t node --cov",
+    "test:electron-main": "npm run test -- -t electron-main",
+    "release": "semantic-release"
   },
   "dependencies": {
-    "debug": "^4.3.1",
+    "@libp2p/interfaces": "^1.3.11",
+    "@libp2p/logger": "^1.0.4",
     "multiformats": "^9.0.2",
-    "p-defer": "^3.0.0",
-    "p-queue": "^6.3.0",
-    "peer-id": "^0.16.0"
+    "p-defer": "^4.0.0",
+    "p-queue": "^7.2.0"
+  },
+  "devDependencies": {
+    "@libp2p/peer-id": "^1.1.5",
+    "@libp2p/peer-id-factory": "^1.0.5",
+    "aegir": "^36.1.3",
+    "go-ipfs": "^0.12.0",
+    "ipfs-http-client": "^56.0.1",
+    "ipfsd-ctl": "^10.0.6",
+    "wherearewe": "^1.0.0"
   },
   "browser": {
     "go-ipfs": false
-  },
-  "contributors": [
-    "Jacob Heun <jacobheun@gmail.com>",
-    "Vasco Santos <vasco.santos@moxy.studio>",
-    "Alex Potsides <alex@achingbrain.net>",
-    "Alan Shaw <alan.shaw@protocol.ai>",
-    "Marcin Rataj <lidel@lidel.org>",
-    "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
-    "David Dias <daviddias.p@gmail.com>",
-    "Maciej Krüger <mkg20001@gmail.com>"
-  ]
+  }
 }

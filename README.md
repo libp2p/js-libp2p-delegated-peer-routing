@@ -19,9 +19,9 @@ npm install ipfs-http-client libp2p-delegated-peer-routing
 ## Example
 
 ```js
-const PeerId = require('peer-id')
-const DelegatedPeerRouting = require('libp2p-delegated-peer-routing')
-const ipfsHttpClient = require('ipfs-http-client')
+const PeerId from 'peer-id')
+const DelegatedPeerRouting from 'libp2p-delegated-peer-routing')
+const ipfsHttpClient from 'ipfs-http-client')
 
 // default is to use ipfs.io
 const routing = new DelegatedPeerRouting(ipfsHttpClient.create({
