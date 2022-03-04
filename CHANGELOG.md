@@ -1,3 +1,14 @@
+## [1.0.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.11.1...v1.0.0) (2022-03-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* switch to named exports, ESM only
+
+### Features
+
+* convert to typescript ([#58](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/58)) ([3013bf8](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/3013bf8c733f23ce08c98c4faad94d8b8bcd63cd))
+
 ## [0.11.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.11.0...v0.11.1) (2021-12-07)
 
 
@@ -227,6 +238,3 @@ http client.
 ### Features
 
 * initial implementation ([#1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/1)) ([7fd93ae](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/7fd93ae))
-
-
-
