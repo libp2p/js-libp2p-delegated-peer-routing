@@ -1,24 +1,27 @@
 /* eslint-env mocha */
-'use strict'
 
-const { expect } = require('aegir/utils/chai')
-const { createFactory } = require('ipfsd-ctl')
-const PeerID = require('peer-id')
-const { isNode } = require('ipfs-utils/src/env')
-const concat = require('it-all')
-const ipfsHttpClient = require('ipfs-http-client')
+import { expect } from 'aegir/utils/chai.js'
+import { Controller, createFactory } from 'ipfsd-ctl'
+import { isNode } from 'wherearewe'
+import { create } from 'ipfs-http-client'
+import { DelegatedPeerRouting } from '../src/index.js'
+// @ts-expect-error no types
+import goIpfs from 'go-ipfs'
+import { peerIdFromString } from '@libp2p/peer-id'
+import { createEd25519PeerId } from '@libp2p/peer-id-factory'
+import type { IDResult } from 'ipfs-core-types/src/root'
+import type { PeerData } from 'ipfs-core-types/src/dht'
 
-const DelegatedPeerRouting = require('../src')
 const factory = createFactory({
   type: 'go',
-  ipfsHttpModule: require('ipfs-http-client'),
-  ipfsBin: isNode ? require('go-ipfs').path() : undefined,
+  ipfsHttpModule: { create },
+  ipfsBin: isNode ? goIpfs.path() : undefined,
   test: true,
   disposable: true,
   endpoint: 'http://localhost:57583'
 })
 
-async function spawnNode (bootstrap = []) {
+async function spawnNode (bootstrap: any[] = []) {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
     ipfsOptions: {
@@ -38,11 +41,11 @@ async function spawnNode (bootstrap = []) {
 describe('DelegatedPeerRouting', function () {
   this.timeout(20 * 1000) // we're spawning daemons, give ci some time
 
-  let nodeToFind
-  let peerIdToFind
-  let delegatedNode
-  let bootstrapNode
-  let bootstrapId
+  let nodeToFind: Controller
+  let peerIdToFind: IDResult
+  let delegatedNode: Controller
+  let bootstrapNode: Controller
+  let bootstrapId: IDResult
 
   before(async () => {
     // Spawn a "Boostrap" node that doesnt connect to anything
@@ -60,8 +63,8 @@ describe('DelegatedPeerRouting', function () {
     delegatedNode = delegate.node
   })
 
-  after(() => {
-    return Promise.all([
+  after(async () => {
+    return await Promise.all([
       nodeToFind.stop(),
       delegatedNode.stop(),
       bootstrapNode.stop()
@@ -70,22 +73,23 @@ describe('DelegatedPeerRouting', function () {
 
   describe('create', () => {
     it('should require an http api client instance at construction time', () => {
+      // @ts-expect-error invalid parameters
       expect(() => new DelegatedPeerRouting()).to.throw()
     })
 
     it('should accept an http api client instance at construction time', () => {
-      const client = ipfsHttpClient.create({
+      const client = create({
         protocol: 'http',
         port: 8000,
         host: 'localhost'
       })
       const router = new DelegatedPeerRouting(client)
 
-      expect(router).to.have.property('_client')
+      expect(router).to.have.property('client')
         .that.has.property('getEndpointConfig')
         .that.is.a('function')
 
-      expect(router._client.getEndpointConfig()).to.deep.include({
+      expect(client.getEndpointConfig()).to.deep.include({
         protocol: 'http:',
         port: '8000',
         host: 'localhost'
@@ -97,14 +101,23 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
-      const peer = await router.findPeer(peerIdToFind.id)
-      expect(peer).to.be.ok()
+      let peer: PeerData | undefined
+
+      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id))) {
+        if (event.name === 'FINAL_PEER') {
+          peer = event.peer
+        }
+      }
+
+      if (peer == null) {
+        throw new Error('Did not find peer')
+      }
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
@@ -114,43 +127,61 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to find peers via the delegate with a peerid', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id))
-      expect(peer).to.be.ok()
+      let peer: PeerData | undefined
+
+      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id))) {
+        if (event.name === 'FINAL_PEER') {
+          peer = event.peer
+        }
+      }
+
+      if (peer == null) {
+        throw new Error('Did not find peer')
+      }
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
-      expect(id.toB58String()).to.eql(peerIdToFind.id)
+      expect(id.toString()).to.eql(peerIdToFind.id)
     })
 
     it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
-      const peer = await router.findPeer(PeerID.parse(peerIdToFind.id), { timeout: 2000 })
-      expect(peer).to.be.ok()
+      let peer: PeerData | undefined
+
+      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id), { timeout: 2000 })) {
+        if (event.name === 'FINAL_PEER') {
+          peer = event.peer
+        }
+      }
+
+      if (peer == null) {
+        throw new Error('Did not find peer')
+      }
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
-      expect(id.toB58String()).to.eql(peerIdToFind.id)
+      expect(id.toString()).to.eql(peerIdToFind.id)
     })
 
     it('should not be able to find peers not on the network', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
@@ -158,8 +189,11 @@ describe('DelegatedPeerRouting', function () {
 
       // This is one of the default Bootstrap nodes, but we're not connected to it
       // so we'll test with it.
-      const peer = await router.findPeer('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64')
-      expect(peer).to.not.exist()
+      for await (const event of router.findPeer(peerIdFromString('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64'))) {
+        if (event.name === 'FINAL_PEER') {
+          throw new Error('Should not have found peer')
+        }
+      }
     })
   })
 
@@ -167,23 +201,30 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to query for the closest peers', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.parse(nodeId.id)
+      const delegatePeerId = peerIdFromString(nodeId.id)
 
-      const key = PeerID.parse(peerIdToFind.id).id
-      const results = await concat(router.getClosestPeers(key))
+      const key = peerIdFromString(peerIdToFind.id).toBytes()
+
+      const closerPeers: PeerData[] = []
+
+      for await (const event of router.getClosestPeers(key)) {
+        if (event.name === 'PEER_RESPONSE') {
+          closerPeers.push(...event.closer)
+        }
+      }
 
       // we should be closest to the 2 other peers
-      expect(results.length).to.equal(2)
-      results.forEach(result => {
+      expect(closerPeers.length).to.equal(2)
+      closerPeers.forEach(result => {
         // shouldnt be the delegate
-        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(delegatePeerId.equals(peerIdFromString(result.id))).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
     })
@@ -191,23 +232,29 @@ describe('DelegatedPeerRouting', function () {
     it('should find closest peers even if the peer does not exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(ipfsHttpClient.create({
+      const router = new DelegatedPeerRouting(create({
         protocol: 'http',
         port: opts.port,
         host: opts.host
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = PeerID.parse(nodeId.id)
+      const delegatePeerId = peerIdFromString(nodeId.id)
 
-      const peerId = await PeerID.create({ keyType: 'ed25519' })
-      const results = await concat(router.getClosestPeers(peerId.id))
+      const peerId = await createEd25519PeerId()
+      const closerPeers: PeerData[] = []
+
+      for await (const event of router.getClosestPeers(peerId.toBytes())) {
+        if (event.name === 'PEER_RESPONSE') {
+          closerPeers.push(...event.closer)
+        }
+      }
 
       // we should be closest to the 2 other peers
-      expect(results.length).to.equal(2)
-      results.forEach(result => {
+      expect(closerPeers.length).to.equal(2)
+      closerPeers.forEach(result => {
         // shouldnt be the delegate
-        expect(delegatePeerId.equals(result.id)).to.equal(false)
+        expect(delegatePeerId.equals(peerIdFromString(result.id))).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
     })
