@@ -9,8 +9,8 @@ import { DelegatedPeerRouting } from '../src/index.js'
 import goIpfs from 'go-ipfs'
 import { peerIdFromString } from '@libp2p/peer-id'
 import { createEd25519PeerId } from '@libp2p/peer-id-factory'
+import all from 'it-all'
 import type { IDResult } from 'ipfs-core-types/src/root'
-import type { PeerData } from 'ipfs-core-types/src/dht'
 
 const factory = createFactory({
   type: 'go',
@@ -107,22 +107,12 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      let peer: PeerData | undefined
-
-      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id))) {
-        if (event.name === 'FINAL_PEER') {
-          peer = event.peer
-        }
-      }
-
-      if (peer == null) {
-        throw new Error('Did not find peer')
-      }
+      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id))
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
-      expect(id).to.eql(peerIdToFind.id)
+      expect(id.equals(peerIdToFind.id)).to.be.true()
     })
 
     it('should be able to find peers via the delegate with a peerid', async () => {
@@ -133,17 +123,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      let peer: PeerData | undefined
-
-      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id))) {
-        if (event.name === 'FINAL_PEER') {
-          peer = event.peer
-        }
-      }
-
-      if (peer == null) {
-        throw new Error('Did not find peer')
-      }
+      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id))
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
@@ -160,17 +140,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      let peer: PeerData | undefined
-
-      for await (const event of router.findPeer(peerIdFromString(peerIdToFind.id), { timeout: 2000 })) {
-        if (event.name === 'FINAL_PEER') {
-          peer = event.peer
-        }
-      }
-
-      if (peer == null) {
-        throw new Error('Did not find peer')
-      }
+      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id), { timeout: 2000 })
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
@@ -189,11 +159,8 @@ describe('DelegatedPeerRouting', function () {
 
       // This is one of the default Bootstrap nodes, but we're not connected to it
       // so we'll test with it.
-      for await (const event of router.findPeer(peerIdFromString('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64'))) {
-        if (event.name === 'FINAL_PEER') {
-          throw new Error('Should not have found peer')
-        }
-      }
+      await expect(router.findPeer(peerIdFromString('QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64')))
+        .to.eventually.be.rejected.with.property('code', 'ERR_NOT_FOUND')
     })
   })
 
@@ -212,19 +179,13 @@ describe('DelegatedPeerRouting', function () {
 
       const key = peerIdFromString(peerIdToFind.id).toBytes()
 
-      const closerPeers: PeerData[] = []
-
-      for await (const event of router.getClosestPeers(key)) {
-        if (event.name === 'PEER_RESPONSE') {
-          closerPeers.push(...event.closer)
-        }
-      }
+      const closerPeers = await all(router.getClosestPeers(key))
 
       // we should be closest to the 2 other peers
       expect(closerPeers.length).to.equal(2)
       closerPeers.forEach(result => {
-        // shouldnt be the delegate
-        expect(delegatePeerId.equals(peerIdFromString(result.id))).to.equal(false)
+        // shouldn't be the delegate
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
     })
@@ -242,19 +203,13 @@ describe('DelegatedPeerRouting', function () {
       const delegatePeerId = peerIdFromString(nodeId.id)
 
       const peerId = await createEd25519PeerId()
-      const closerPeers: PeerData[] = []
-
-      for await (const event of router.getClosestPeers(peerId.toBytes())) {
-        if (event.name === 'PEER_RESPONSE') {
-          closerPeers.push(...event.closer)
-        }
-      }
+      const closerPeers = await all(router.getClosestPeers(peerId.toBytes()))
 
       // we should be closest to the 2 other peers
       expect(closerPeers.length).to.equal(2)
       closerPeers.forEach(result => {
         // shouldnt be the delegate
-        expect(delegatePeerId.equals(peerIdFromString(result.id))).to.equal(false)
+        expect(delegatePeerId.equals(result.id)).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
     })
