@@ -1,3 +1,10 @@
+### [1.0.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v1.0.0...v1.0.1) (2022-03-16)
+
+
+### Bug Fixes
+
+* update interfaces ([#59](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/59)) ([67e8ae3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/67e8ae3c1adae5b4833b514f38e16f54439dab75))
+
 ## [1.0.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v0.11.1...v1.0.0) (2022-03-04)
 
 
