@@ -10,7 +10,7 @@ import type { IPFSHTTPClient } from 'ipfs-http-client'
 import type { HTTPClientExtraOptions } from 'ipfs-http-client/types/src/types'
 import type { AbortOptions } from 'ipfs-core-types/src/utils'
 import type { PeerRouting } from '@libp2p/interfaces/peer-routing'
-import type { PeerData } from '@libp2p/interfaces/peer-data'
+import type { PeerInfo } from '@libp2p/interfaces/peer-info'
 
 const log = logger('libp2p-delegated-peer-routing')
 
@@ -68,13 +68,13 @@ export class DelegatedPeerRouting implements PeerRouting {
         timeout: options.timeout
       })) {
         if (event.name === 'FINAL_PEER') {
-          const peerData: PeerData = {
+          const peerInfo: PeerInfo = {
             id: peerIdFromString(event.peer.id),
             multiaddrs: event.peer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
             protocols: []
           }
 
-          return peerData
+          return peerInfo
         }
       }
     } catch (err: any) {
