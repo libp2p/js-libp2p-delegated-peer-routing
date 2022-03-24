@@ -68,13 +68,13 @@ export class DelegatedPeerRouting implements PeerRouting {
         timeout: options.timeout
       })) {
         if (event.name === 'FINAL_PEER') {
-          const PeerInfo: PeerInfo = {
+          const peerInfo: PeerInfo = {
             id: peerIdFromString(event.peer.id),
             multiaddrs: event.peer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
             protocols: []
           }
 
-          return PeerInfo
+          return peerInfo
         }
       }
     } catch (err: any) {
