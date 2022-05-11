@@ -1,9 +1,10 @@
-'use strict'
+import { createServer } from 'ipfsd-ctl'
+import * as ipfsHttpModule from 'ipfs-http-client'
+import goIpfsModule from 'go-ipfs'
 
-const { createServer } = require('ipfsd-ctl')
 let server
 
-module.exports = {
+export default {
   test: {
     before: async () => {
       server = createServer({
@@ -11,8 +12,8 @@ module.exports = {
         port: 57583
       }, {
         type: 'go',
-        ipfsHttpModule: require('ipfs-http-client'),
-        ipfsBin: require('go-ipfs').path(),
+        ipfsHttpModule,
+        ipfsBin: goIpfsModule.path(),
         test: true
       })
 

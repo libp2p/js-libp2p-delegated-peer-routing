@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { Controller, createFactory } from 'ipfsd-ctl'
 import { isNode } from 'wherearewe'
 import { create } from 'ipfs-http-client'
@@ -10,6 +10,9 @@ import goIpfs from 'go-ipfs'
 import { peerIdFromString } from '@libp2p/peer-id'
 import { createEd25519PeerId } from '@libp2p/peer-id-factory'
 import all from 'it-all'
+import pDefer from 'p-defer'
+import drain from 'it-drain'
+import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import type { IDResult } from 'ipfs-core-types/src/root'
 
 const factory = createFactory({
@@ -212,6 +215,31 @@ describe('DelegatedPeerRouting', function () {
         expect(delegatePeerId.equals(result.id)).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
+    })
+  })
+
+  describe('stop', () => {
+    it('should cancel in-flight requests when stopping', async () => {
+      const opts = delegatedNode.apiAddr.toOptions()
+      const router = new DelegatedPeerRouting(create({
+        protocol: 'http',
+        port: opts.port,
+        host: opts.host
+      }))
+
+      const deferred = pDefer<Error>()
+      const peer = uint8ArrayFromString('QmVv4Wz46JaZJeH5PMV4LGbRiiMKEmszPYY3g6fjGnVXBs')
+
+      void drain(router.getClosestPeers(peer))
+        .then(() => {
+          deferred.reject(new Error('Did not abort'))
+        })
+        .catch(err => {
+          deferred.resolve(err)
+        })
+
+      await router.stop()
+      await expect(deferred.promise).to.eventually.have.property('message').that.matches(/aborted/)
     })
   })
 })
