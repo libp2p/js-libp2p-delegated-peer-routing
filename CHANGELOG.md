@@ -1,3 +1,10 @@
+### [1.0.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v1.0.2...v1.0.3) (2022-05-11)
+
+
+### Bug Fixes
+
+* abort in flight requests when shutting down ([#68](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/68)) ([31c5db6](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/31c5db667e70dd17751fb26f39bd58f4ca3db89c))
+
 ### [1.0.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v1.0.1...v1.0.2) (2022-03-24)
 
 
