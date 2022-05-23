@@ -1,3 +1,10 @@
+### [1.0.4](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v1.0.3...v1.0.4) (2022-05-23)
+
+
+### Trivial Changes
+
+* **deps:** bump @libp2p/interfaces from 1.3.32 to 2.0.1 ([#70](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/70)) ([ebd8b76](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/ebd8b76c9177c0d14e8756f7cedb7c425ec349fb))
+
 ### [1.0.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v1.0.2...v1.0.3) (2022-05-11)
 
 
