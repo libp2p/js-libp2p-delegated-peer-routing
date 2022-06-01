@@ -110,7 +110,7 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id))
+      const peer = await router.findPeer(peerIdToFind.id)
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
@@ -126,13 +126,13 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id))
+      const peer = await router.findPeer(peerIdToFind.id)
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
-      expect(id.toString()).to.eql(peerIdToFind.id)
+      expect(id.toString()).to.eql(peerIdToFind.id.toString())
     })
 
     it('should be able to specify a timeout', async () => {
@@ -143,13 +143,13 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))
 
-      const peer = await router.findPeer(peerIdFromString(peerIdToFind.id), { timeout: 2000 })
+      const peer = await router.findPeer(peerIdToFind.id, { timeout: 2000 })
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
-      expect(id.toString()).to.eql(peerIdToFind.id)
+      expect(id.toString()).to.eql(peerIdToFind.id.toString())
     })
 
     it('should not be able to find peers not on the network', async () => {
@@ -178,9 +178,9 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = peerIdFromString(nodeId.id)
+      const delegatePeerId = nodeId.id
 
-      const key = peerIdFromString(peerIdToFind.id).toBytes()
+      const key = peerIdToFind.id.toBytes()
 
       const closerPeers = await all(router.getClosestPeers(key))
 
@@ -203,7 +203,7 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const nodeId = await delegatedNode.api.id()
-      const delegatePeerId = peerIdFromString(nodeId.id)
+      const delegatePeerId = nodeId.id
 
       const peerId = await createEd25519PeerId()
       const closerPeers = await all(router.getClosestPeers(peerId.toBytes()))
@@ -228,7 +228,7 @@ describe('DelegatedPeerRouting', function () {
       }))
 
       const deferred = pDefer<Error>()
-      const peer = uint8ArrayFromString('QmVv4Wz46JaZJeH5PMV4LGbRiiMKEmszPYY3g6fjGnVXBs')
+      const peer = uint8ArrayFromString('QmVv4Wz46JaZJeH5PMV4LGbRiiMKEmszPYY3g6fjGnVXBs', 'base58btc')
 
       void drain(router.getClosestPeers(peer))
         .then(() => {

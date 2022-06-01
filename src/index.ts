@@ -1,18 +1,17 @@
 import { logger } from '@libp2p/logger'
-import { base58btc } from 'multiformats/bases/base58'
+import { CID } from 'multiformats/cid'
 import PQueue from 'p-queue'
 import defer from 'p-defer'
 import errCode from 'err-code'
 import { Multiaddr } from '@multiformats/multiaddr'
-import { peerIdFromString } from '@libp2p/peer-id'
 import anySignal from 'any-signal'
 import type { PeerId } from '@libp2p/interfaces/peer-id'
-import type { IPFSHTTPClient } from 'ipfs-http-client'
-import type { HTTPClientExtraOptions } from 'ipfs-http-client/types/src/types'
+import type { IPFSHTTPClient, HTTPClientExtraOptions } from 'ipfs-http-client'
 import type { AbortOptions } from 'ipfs-core-types/src/utils'
 import type { PeerRouting } from '@libp2p/interfaces/peer-routing'
 import type { PeerInfo } from '@libp2p/interfaces/peer-info'
 import type { Startable } from '@libp2p/interfaces/startable'
+import { peerIdFromBytes } from '@libp2p/peer-id'
 
 const log = logger('libp2p-delegated-peer-routing')
 
@@ -86,10 +85,10 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
     try {
       await onStart.promise
 
-      for await (const event of this.client.dht.findPeer(id.toString(), options)) {
+      for await (const event of this.client.dht.findPeer(id, options)) {
         if (event.name === 'FINAL_PEER') {
           const peerInfo: PeerInfo = {
-            id: peerIdFromString(event.peer.id),
+            id: event.peer.id,
             multiaddrs: event.peer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
             protocols: []
           }
@@ -113,9 +112,16 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
    * Attempt to find the closest peers on the network to the given key
    */
   async * getClosestPeers (key: Uint8Array, options: HTTPClientExtraOptions & AbortOptions = {}) {
-    const keyStr = base58btc.encode(key).substring(1)
+    let cidOrPeerId: CID | PeerId
+    const cid = CID.asCID(key)
 
-    log('getClosestPeers starts:', keyStr)
+    if (cid != null) {
+      cidOrPeerId = cid
+    } else {
+      cidOrPeerId = peerIdFromBytes(key)
+    }
+
+    log('getClosestPeers starts: %s', cidOrPeerId)
     options.timeout = options.timeout ?? DEFAULT_TIMEOUT
     options.signal = anySignal([this.abortController.signal].concat((options.signal != null) ? [options.signal] : []))
 
@@ -130,10 +136,10 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
     try {
       await onStart.promise
 
-      for await (const event of this.client.dht.query(keyStr, options)) {
+      for await (const event of this.client.dht.query(cidOrPeerId, options)) {
         if (event.name === 'PEER_RESPONSE') {
           yield * event.closer.map(closer => ({
-            id: peerIdFromString(closer.id),
+            id: closer.id,
             multiaddrs: closer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
             protocols: []
           }))
