@@ -25,6 +25,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./src/index.d.ts",
       "import": "./dist/src/index.js"
     }
   },
@@ -130,7 +131,10 @@
     "release": "aegir release"
   },
   "dependencies": {
-    "@libp2p/interfaces": "^2.0.3",
+    "@libp2p/interface-peer-id": "^1.0.2",
+    "@libp2p/interface-peer-info": "^1.0.1",
+    "@libp2p/interface-peer-routing": "^1.0.0",
+    "@libp2p/interfaces": "^3.0.2",
     "@libp2p/logger": "^1.1.5",
     "@libp2p/peer-id": "^1.1.11",
     "@multiformats/multiaddr": "^10.1.8",
@@ -142,8 +146,8 @@
   },
   "devDependencies": {
     "@libp2p/peer-id-factory": "^1.0.11",
-    "aegir": "^37.0.15",
-    "go-ipfs": "^0.12.0",
+    "aegir": "^37.2.0",
+    "go-ipfs": "^0.13.0",
     "ipfs-http-client": "^57.0.1",
     "ipfsd-ctl": "^11.0.1",
     "it-all": "^1.0.6",
