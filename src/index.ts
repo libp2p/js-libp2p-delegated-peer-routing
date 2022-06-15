@@ -3,13 +3,13 @@ import { CID } from 'multiformats/cid'
 import PQueue from 'p-queue'
 import defer from 'p-defer'
 import errCode from 'err-code'
-import { Multiaddr } from '@multiformats/multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 import anySignal from 'any-signal'
-import type { PeerId } from '@libp2p/interfaces/peer-id'
+import type { PeerId } from '@libp2p/interface-peer-id'
 import type { IPFSHTTPClient, HTTPClientExtraOptions } from 'ipfs-http-client'
 import type { AbortOptions } from 'ipfs-core-types/src/utils'
-import type { PeerRouting } from '@libp2p/interfaces/peer-routing'
-import type { PeerInfo } from '@libp2p/interfaces/peer-info'
+import type { PeerRouting } from '@libp2p/interface-peer-routing'
+import type { PeerInfo } from '@libp2p/interface-peer-info'
 import type { Startable } from '@libp2p/interfaces/startable'
 import { peerIdFromBytes } from '@libp2p/peer-id'
 
@@ -89,7 +89,8 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
         if (event.name === 'FINAL_PEER') {
           const peerInfo: PeerInfo = {
             id: event.peer.id,
-            multiaddrs: event.peer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
+            // @ts-expect-error ipfs-core types need updating
+            multiaddrs: event.peer.multiaddrs.map(ma => multiaddr(ma.toString())),
             protocols: []
           }
 
@@ -140,7 +141,8 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
         if (event.name === 'PEER_RESPONSE') {
           yield * event.closer.map(closer => ({
             id: closer.id,
-            multiaddrs: closer.multiaddrs.map(ma => new Multiaddr(ma.toString())),
+            // @ts-expect-error ipfs-core types need updating
+            multiaddrs: closer.multiaddrs.map(ma => multiaddr(ma.toString())),
             protocols: []
           }))
         }
