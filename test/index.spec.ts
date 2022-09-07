@@ -2,7 +2,7 @@
 
 import { expect } from 'aegir/chai'
 import { Controller, createFactory } from 'ipfsd-ctl'
-import { isNode } from 'wherearewe'
+import { isElectronMain, isNode } from 'wherearewe'
 import { create } from 'ipfs-http-client'
 import { DelegatedPeerRouting } from '../src/index.js'
 // @ts-expect-error no types
@@ -18,7 +18,7 @@ import type { IDResult } from 'ipfs-core-types/src/root'
 const factory = createFactory({
   type: 'go',
   ipfsHttpModule: { create },
-  ipfsBin: isNode ? goIpfs.path() : undefined,
+  ipfsBin: isNode || isElectronMain ? goIpfs.path() : undefined,
   test: true,
   disposable: true,
   endpoint: 'http://localhost:57583'
