@@ -5,7 +5,6 @@ import defer from 'p-defer'
 import errCode from 'err-code'
 import anySignal from 'any-signal'
 import type { PeerId } from '@libp2p/interface-peer-id'
-import type { IPFSHTTPClient, HTTPClientExtraOptions } from 'ipfs-http-client'
 import type { AbortOptions } from 'ipfs-core-types/src/utils'
 import type { PeerRouting } from '@libp2p/interface-peer-routing'
 import type { PeerInfo } from '@libp2p/interface-peer-info'
@@ -17,8 +16,107 @@ const log = logger('libp2p-delegated-peer-routing')
 const DEFAULT_TIMEOUT = 30e3 // 30 second default
 const CONCURRENT_HTTP_REQUESTS = 4
 
-export class DelegatedPeerRouting implements PeerRouting, Startable {
-  private readonly client: IPFSHTTPClient
+export interface HTTPClientExtraOptions {
+  headers?: Record<string, string>
+  searchParams?: URLSearchParams
+}
+
+export enum EventTypes {
+  SENDING_QUERY = 0,
+  PEER_RESPONSE,
+  FINAL_PEER,
+  QUERY_ERROR,
+  PROVIDER,
+  VALUE,
+  ADDING_PEER,
+  DIALING_PEER
+}
+
+/**
+ * The types of messages set/received during DHT queries
+ */
+export enum MessageType {
+  PUT_VALUE = 0,
+  GET_VALUE,
+  ADD_PROVIDER,
+  GET_PROVIDERS,
+  FIND_NODE,
+  PING
+}
+
+export type MessageName = keyof typeof MessageType
+
+export interface DHTRecord {
+  key: Uint8Array
+  value: Uint8Array
+  timeReceived?: Date
+}
+
+export interface SendingQueryEvent {
+  type: EventTypes.SENDING_QUERY
+  name: 'SENDING_QUERY'
+}
+
+export interface PeerResponseEvent {
+  from: PeerId
+  type: EventTypes.PEER_RESPONSE
+  name: 'PEER_RESPONSE'
+  messageType: MessageType
+  messageName: MessageName
+  providers: PeerInfo[]
+  closer: PeerInfo[]
+  record?: DHTRecord
+}
+
+export interface FinalPeerEvent {
+  peer: PeerInfo
+  type: EventTypes.FINAL_PEER
+  name: 'FINAL_PEER'
+}
+
+export interface QueryErrorEvent {
+  type: EventTypes.QUERY_ERROR
+  name: 'QUERY_ERROR'
+  error: Error
+}
+
+export interface ProviderEvent {
+  type: EventTypes.PROVIDER
+  name: 'PROVIDER'
+  providers: PeerInfo[]
+}
+
+export interface ValueEvent {
+  type: EventTypes.VALUE
+  name: 'VALUE'
+  value: Uint8Array
+}
+
+export interface AddingPeerEvent {
+  type: EventTypes.ADDING_PEER
+  name: 'ADDING_PEER'
+  peer: PeerId
+}
+
+export interface DialingPeerEvent {
+  peer: PeerId
+  type: EventTypes.DIALING_PEER
+  name: 'DIALING_PEER'
+}
+
+export type QueryEvent = SendingQueryEvent | PeerResponseEvent | FinalPeerEvent | QueryErrorEvent | ProviderEvent | ValueEvent | AddingPeerEvent | DialingPeerEvent
+
+export interface Delegate {
+  getEndpointConfig: () => { protocol: string, host: string, port: string }
+
+  dht: {
+    findPeer: (peerId: PeerId, options?: AbortOptions) => AsyncIterable<QueryEvent>
+    query: (peerId: PeerId | CID, options?: AbortOptions) => AsyncIterable<QueryEvent>
+  }
+}
+
+class DelegatedPeerRouting implements PeerRouting, Startable {
+  private readonly client: Delegate
   private readonly httpQueue: PQueue
   private started: boolean
   private abortController: AbortController
@@ -26,7 +124,7 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
   /**
    * Create a new DelegatedPeerRouting instance
    */
-  constructor (client: IPFSHTTPClient) {
+  constructor (client: Delegate) {
     if (client == null) {
       throw new Error('missing ipfs http client')
     }
@@ -152,4 +250,8 @@ export class DelegatedPeerRouting implements PeerRouting, Startable {
       log('getClosestPeers finished: %b', key)
     }
   }
+}
+
+export function delegatedPeerRouting (client: Delegate): (components?: any) => PeerRouting {
+  return () => new DelegatedPeerRouting(client)
 }

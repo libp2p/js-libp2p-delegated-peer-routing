@@ -3,8 +3,8 @@
 import { expect } from 'aegir/chai'
 import { Controller, createFactory } from 'ipfsd-ctl'
 import { isElectronMain, isNode } from 'wherearewe'
-import { create } from 'ipfs-http-client'
-import { DelegatedPeerRouting } from '../src/index.js'
+import { create, Options, CID as IPFSCID } from 'ipfs-http-client'
+import { delegatedPeerRouting } from '../src/index.js'
 // @ts-expect-error no types
 import goIpfs from 'go-ipfs'
 import { peerIdFromString } from '@libp2p/peer-id'
@@ -14,6 +14,11 @@ import pDefer from 'p-defer'
 import drain from 'it-drain'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import type { IDResult } from 'ipfs-core-types/src/root'
+import { CID } from 'multiformats/cid'
+import type { AbortOptions } from '@libp2p/interfaces'
+import type { PeerId } from '@libp2p/interface-peer-id'
+import { stop } from '@libp2p/interfaces/startable'
+import { TimeoutController } from 'timeout-abort-controller'
 
 const factory = createFactory({
   type: 'go',
@@ -38,6 +43,33 @@ async function spawnNode (bootstrap: any[] = []) {
   return {
     node,
     id
+  }
+}
+
+function createIpfsClient (opts: Options) {
+  const client = create(opts)
+
+  return {
+    getEndpointConfig: () => client.getEndpointConfig(),
+    block: {
+      async stat (cid: CID, options?: AbortOptions) {
+        const result = await client.block.stat(IPFSCID.parse(cid.toString()), options)
+
+        return {
+          cid: CID.parse(result.cid.toString()),
+          size: result.size
+        }
+      }
+    },
+    dht: {
+      async * findPeer (peerId: PeerId, options?: AbortOptions) {
+        yield * client.dht.findPeer(peerId, options)
+      },
+      async * query (peerId: PeerId | CID, options?: AbortOptions) {
+        // @ts-expect-error CID types can be different
+        yield * client.dht.query(peerId, options)
+      }
+    }
   }
 }
 
@@ -77,16 +109,16 @@ describe('DelegatedPeerRouting', function () {
   describe('create', () => {
     it('should require an http api client instance at construction time', () => {
       // @ts-expect-error invalid parameters
-      expect(() => new DelegatedPeerRouting()).to.throw()
+      expect(() => delegatedPeerRouting()()).to.throw()
     })
 
     it('should accept an http api client instance at construction time', () => {
-      const client = create({
+      const client = createIpfsClient({
         protocol: 'http',
         port: 8000,
         host: 'localhost'
       })
-      const router = new DelegatedPeerRouting(client)
+      const router = delegatedPeerRouting(client)()
 
       expect(router).to.have.property('client')
         .that.has.property('getEndpointConfig')
@@ -104,11 +136,11 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       const peer = await router.findPeer(peerIdToFind.id)
 
@@ -120,11 +152,11 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to find peers via the delegate with a peerid', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       const peer = await router.findPeer(peerIdToFind.id)
 
@@ -137,28 +169,31 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
+      const controller = new TimeoutController(5e3)
 
-      const peer = await router.findPeer(peerIdToFind.id, { timeout: 2000 })
+      const peer = await router.findPeer(peerIdToFind.id, { signal: controller.signal })
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
       expect(id.toString()).to.eql(peerIdToFind.id.toString())
+
+      controller.clear()
     })
 
     it('should not be able to find peers not on the network', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       // This is one of the default Bootstrap nodes, but we're not connected to it
       // so we'll test with it.
@@ -171,11 +206,11 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to query for the closest peers', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       const nodeId = await delegatedNode.api.id()
       const delegatePeerId = nodeId.id
@@ -196,11 +231,11 @@ describe('DelegatedPeerRouting', function () {
     it('should find closest peers even if the peer does not exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       const nodeId = await delegatedNode.api.id()
       const delegatePeerId = nodeId.id
@@ -221,11 +256,11 @@ describe('DelegatedPeerRouting', function () {
   describe('stop', () => {
     it('should cancel in-flight requests when stopping', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      const router = new DelegatedPeerRouting(create({
+      const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
         host: opts.host
-      }))
+      }))()
 
       const deferred = pDefer<Error>()
       const peer = uint8ArrayFromString('QmVv4Wz46JaZJeH5PMV4LGbRiiMKEmszPYY3g6fjGnVXBs', 'base58btc')
@@ -238,7 +273,7 @@ describe('DelegatedPeerRouting', function () {
           deferred.resolve(err)
         })
 
-      await router.stop()
+      await stop(router)
       await expect(deferred.promise).to.eventually.have.property('message').that.matches(/aborted/)
     })
   })
