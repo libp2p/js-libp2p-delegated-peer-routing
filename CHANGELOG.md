@@ -1,3 +1,19 @@
+## [3.0.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v2.0.2...v3.0.0) (2022-10-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* modules no longer implement `Initializable` instead switching to constructor injection
+
+### Bug Fixes
+
+* remove @libp2p/components ([#90](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/90)) ([a3816b1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/a3816b1da57ffcee5e378271d70778f62aa90402))
+
+
+### Trivial Changes
+
+* Update .github/workflows/stale.yml [skip ci] ([4f472d3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/4f472d30506ea297500859481e75db993bce2a82))
+
 ## [2.0.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v2.0.1...v2.0.2) (2022-09-07)
 
 
