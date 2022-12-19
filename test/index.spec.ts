@@ -66,7 +66,6 @@ function createIpfsClient (opts: Options) {
         yield * client.dht.findPeer(peerId, options)
       },
       async * query (peerId: PeerId | CID, options?: AbortOptions) {
-        // @ts-expect-error CID types can be different
         yield * client.dht.query(peerId, options)
       }
     }
