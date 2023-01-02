@@ -144,7 +144,7 @@
     "@libp2p/peer-id": "^1.1.11",
     "any-signal": "^3.0.1",
     "err-code": "^3.0.1",
-    "multiformats": "^10.0.0",
+    "multiformats": "^11.0.0",
     "p-defer": "^4.0.0",
     "p-queue": "^7.2.0"
   },
