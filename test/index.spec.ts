@@ -144,13 +144,12 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))()
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const peer = await router.findPeer(peerIdToFind.id)
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
-      // @ts-expect-error ipfs-http-client types are out of date
+
       expect(id.equals(peerIdToFind.id)).to.be.true()
     })
 
@@ -163,7 +162,6 @@ describe('DelegatedPeerRouting', function () {
         host: opts.host
       }))()
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const peer = await router.findPeer(peerIdToFind.id)
 
       const { id, multiaddrs } = peer
@@ -183,7 +181,6 @@ describe('DelegatedPeerRouting', function () {
       }))()
       const controller = new TimeoutController(5e3)
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const peer = await router.findPeer(peerIdToFind.id, { signal: controller.signal })
 
       const { id, multiaddrs } = peer
@@ -232,7 +229,7 @@ describe('DelegatedPeerRouting', function () {
       expect(closerPeers.length).to.equal(2)
       closerPeers.forEach(result => {
         // shouldn't be the delegate
-        // @ts-expect-error ipfs-http-client types are out of date
+
         expect(delegatePeerId.equals(result.id)).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
@@ -257,7 +254,7 @@ describe('DelegatedPeerRouting', function () {
       expect(closerPeers.length).to.equal(2)
       closerPeers.forEach(result => {
         // shouldnt be the delegate
-        // @ts-expect-error ipfs-http-client types are out of date
+
         expect(delegatePeerId.equals(result.id)).to.equal(false)
         expect(result.multiaddrs).to.be.an('array')
       })
