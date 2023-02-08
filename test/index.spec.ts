@@ -29,7 +29,7 @@ const factory = createFactory({
   endpoint: 'http://localhost:57583'
 })
 
-async function spawnNode (bootstrap: any[] = []) {
+async function spawnNode (bootstrap: any[] = []): Promise<{ node: Controller, id: IDResult }> {
   const node = await factory.spawn({
     // Lock down the nodes so testing can be deterministic
     ipfsOptions: {
@@ -46,7 +46,7 @@ async function spawnNode (bootstrap: any[] = []) {
   }
 }
 
-function createIpfsClient (opts: Options) {
+function createIpfsClient (opts: Options): any {
   const client = create(opts)
 
   return {
@@ -119,7 +119,7 @@ describe('DelegatedPeerRouting', function () {
         port: 8000,
         host: 'localhost'
       })
-      // @ts-expect-error ipfs-http-client types are out of date
+
       const router = delegatedPeerRouting(client)()
 
       expect(router).to.have.property('client')
@@ -138,7 +138,6 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to find peers via the delegate with a peer id string', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -157,7 +156,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to find peers via the delegate with a peerid', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      // @ts-expect-error ipfs-http-client types are out of date
+
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -176,7 +175,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should be able to specify a timeout', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      // @ts-expect-error ipfs-http-client types are out of date
+
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -198,7 +197,7 @@ describe('DelegatedPeerRouting', function () {
 
     it('should not be able to find peers not on the network', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      // @ts-expect-error ipfs-http-client types are out of date
+
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -216,7 +215,6 @@ describe('DelegatedPeerRouting', function () {
     it('should be able to query for the closest peers', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -243,7 +241,6 @@ describe('DelegatedPeerRouting', function () {
     it('should find closest peers even if the peer does not exist', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
 
-      // @ts-expect-error ipfs-http-client types are out of date
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
@@ -270,7 +267,7 @@ describe('DelegatedPeerRouting', function () {
   describe('stop', () => {
     it('should cancel in-flight requests when stopping', async () => {
       const opts = delegatedNode.apiAddr.toOptions()
-      // @ts-expect-error ipfs-http-client types are out of date
+
       const router = delegatedPeerRouting(createIpfsClient({
         protocol: 'http',
         port: opts.port,
