@@ -148,15 +148,15 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
     log(`enabled DelegatedPeerRouting via ${protocol}://${host}:${port}`)
   }
 
-  isStarted () {
+  isStarted (): boolean {
     return this.started
   }
 
-  start () {
+  start (): void {
     this.started = true
   }
 
-  stop () {
+  stop (): void {
     this.httpQueue.clear()
     this.abortController.abort()
     this.abortController = new AbortController()
@@ -166,7 +166,7 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
   /**
    * Attempts to find the given peer
    */
-  async findPeer (id: PeerId, options: HTTPClientExtraOptions & AbortOptions = {}) {
+  async findPeer (id: PeerId, options: HTTPClientExtraOptions & AbortOptions = {}): Promise<PeerInfo> {
     log('findPeer starts: %p', id)
     options.timeout = options.timeout ?? DEFAULT_TIMEOUT
     options.signal = anySignal([this.abortController.signal].concat((options.signal != null) ? [options.signal] : []))
@@ -208,7 +208,7 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
   /**
    * Attempt to find the closest peers on the network to the given key
    */
-  async * getClosestPeers (key: Uint8Array, options: HTTPClientExtraOptions & AbortOptions = {}) {
+  async * getClosestPeers (key: Uint8Array, options: HTTPClientExtraOptions & AbortOptions = {}): AsyncGenerator<PeerInfo, void, undefined> {
     let cidOrPeerId: CID | PeerId
     const cid = CID.asCID(key)
 
