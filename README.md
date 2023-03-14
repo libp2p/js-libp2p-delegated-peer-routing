@@ -37,21 +37,21 @@ Requires access to `/api/v0/dht/findpeer` and `/api/v0/dht/query` HTTP API endpo
 
 ## Requirements
 
-`libp2p-delegated-peer-routing` leverages the `ipfs-http-client` library and requires an instance of it as a constructor argument.
+`libp2p-delegated-peer-routing` leverages the `kubo-rpc-client` library and requires an instance of it as a constructor argument.
 
 ```sh
-npm install ipfs-http-client libp2p-delegated-peer-routing
+npm install kubo-rpc-client libp2p-delegated-peer-routing
 ```
 
 ## Example
 
 ```js
 import { createLibp2p } from 'libp2p'
-import { delegatedPeerRouting } from '@libp2p/delegated-peer-routing')
-import { create as createIpfsHttpClient } from 'ipfs-http-client')
+import { delegatedPeerRouting } from '@libp2p/delegated-peer-routing'
+import { create as KuboClient } from 'kubo-rpc-client'
 
 // default is to use ipfs.io
-const client = createIpfsHttpClient({
+const client = create({
   // use default api settings
   protocol: 'https',
   port: 443,
@@ -59,7 +59,7 @@ const client = createIpfsHttpClient({
 })
 
 const node = await createLibp2p({
-  peerRouting: [
+  peerRouters: [
     delegatedPeerRouting(client)
   ]
   //.. other config
