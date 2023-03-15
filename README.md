@@ -48,10 +48,10 @@ npm install kubo-rpc-client libp2p-delegated-peer-routing
 ```js
 import { createLibp2p } from 'libp2p'
 import { delegatedPeerRouting } from '@libp2p/delegated-peer-routing'
-import { create as KuboClient } from 'kubo-rpc-client'
+import { create as kuboClient } from 'kubo-rpc-client'
 
 // default is to use ipfs.io
-const client = create({
+const client = kuboClient({
   // use default api settings
   protocol: 'https',
   port: 443,
