@@ -1,3 +1,18 @@
+## [4.0.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.0...v4.0.1) (2023-03-16)
+
+
+### Trivial Changes
+
+* Update .github/workflows/semantic-pull-request.yml [skip ci] ([b0f81bf](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/b0f81bf27e440b3420d8516c41156c527d8d8c78))
+* Update .github/workflows/semantic-pull-request.yml [skip ci] ([c89a5e1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/c89a5e14ac5d7fb433d68aa6df36c84fc6f4a4be))
+* Update .github/workflows/semantic-pull-request.yml [skip ci] ([dc5e6d9](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/dc5e6d9b06a1ffba4d787bd8f0c96a6b0a755e62))
+* upgrade aegir to `38.1.2` ([#109](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/109)) ([17e7928](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/17e79283b9a50bdee6d6f15405299a7e2cd1bac1))
+
+
+### Documentation
+
+* Update README.md ([#117](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/117)) ([2662c50](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/2662c50eee8f58fedbae281b6494b9352a14498a))
+
 ## [4.0.0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v3.0.1...v4.0.0) (2023-01-06)
 
 
