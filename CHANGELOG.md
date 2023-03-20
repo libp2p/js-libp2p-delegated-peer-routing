@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.1...v4.0.2) (2023-03-20)
+
+
+### Dependencies
+
+* **dev:** bump ipfsd-ctl from 12.2.2 to 13.0.0 ([#104](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/104)) ([9221778](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/9221778669ed0b926d85a745e3a3adaf9e64ed24))
+
 ## [4.0.1](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.0...v4.0.1) (2023-03-16)
 
 
