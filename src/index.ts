@@ -11,7 +11,7 @@ import type { PeerInfo } from '@libp2p/interface-peer-info'
 import type { Startable } from '@libp2p/interfaces/startable'
 import { peerIdFromBytes } from '@libp2p/peer-id'
 
-const log = logger('libp2p-delegated-peer-routing')
+const log = logger('libp2p:delegated-peer-routing')
 
 const DEFAULT_TIMEOUT = 30e3 // 30 second default
 const CONCURRENT_HTTP_REQUESTS = 4
