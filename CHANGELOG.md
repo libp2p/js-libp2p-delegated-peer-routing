@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.2...v4.0.3) (2023-03-21)
+
+
+### Bug Fixes
+
+* **debug-logs:** use 'libp2p:' namespace ([#121](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/121)) ([a3e085e](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/a3e085e113ddcf032ae7a4a61f6fdd7fb95cebd2))
+
 ## [4.0.2](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.1...v4.0.2) (2023-03-20)
 
 
