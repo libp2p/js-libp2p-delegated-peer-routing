@@ -139,7 +139,7 @@
     "@libp2p/interface-peer-id": "^2.0.0",
     "@libp2p/interface-peer-info": "^1.0.1",
     "@libp2p/interface-peer-routing": "^1.0.0",
-    "@libp2p/interfaces": "^3.0.2",
+    "@libp2p/interfaces": "^3.3.1",
     "@libp2p/logger": "^2.0.0",
     "@libp2p/peer-id": "^2.0.0",
     "any-signal": "^3.0.1",
