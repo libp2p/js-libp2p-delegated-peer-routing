@@ -1,3 +1,10 @@
+## [4.0.5](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.4...v4.0.5) (2023-03-31)
+
+
+### Dependencies
+
+* **dev:** bump it-all from 2.0.1 to 3.0.1 ([#124](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/124)) ([8d41444](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/8d4144478f566f85ab64f9054ca0f378025a23c9))
+
 ## [4.0.4](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.3...v4.0.4) (2023-03-22)
 
 
