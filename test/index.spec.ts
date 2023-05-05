@@ -18,7 +18,6 @@ import { CID } from 'multiformats/cid'
 import type { AbortOptions } from '@libp2p/interfaces'
 import type { PeerId } from '@libp2p/interface-peer-id'
 import { stop } from '@libp2p/interfaces/startable'
-import { TimeoutController } from 'timeout-abort-controller'
 
 const factory = createFactory({
   type: 'go',
@@ -179,17 +178,15 @@ describe('DelegatedPeerRouting', function () {
         port: opts.port,
         host: opts.host
       }))()
-      const controller = new TimeoutController(5e3)
+      const signal = AbortSignal.timeout(5e3)
 
-      const peer = await router.findPeer(peerIdToFind.id, { signal: controller.signal })
+      const peer = await router.findPeer(peerIdToFind.id, { signal })
 
       const { id, multiaddrs } = peer
       expect(id).to.exist()
       expect(multiaddrs).to.exist()
 
       expect(id.toString()).to.eql(peerIdToFind.id.toString())
-
-      controller.clear()
     })
 
     it('should not be able to find peers not on the network', async () => {
