@@ -1,3 +1,10 @@
+## [4.0.6](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.5...v4.0.6) (2023-05-05)
+
+
+### Bug Fixes
+
+* remove use of timeout-abort-controller ([#129](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/129)) ([2fbde9a](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/2fbde9a1d297948fee320eeda4f4b0c53d3e75f0))
+
 ## [4.0.5](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.4...v4.0.5) (2023-03-31)
 
 
