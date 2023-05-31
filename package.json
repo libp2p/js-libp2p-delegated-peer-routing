@@ -1,6 +1,6 @@
 {
   "name": "@libp2p/delegated-peer-routing",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/libp2p/js-libp2p-delegated-peer-routing#readme",

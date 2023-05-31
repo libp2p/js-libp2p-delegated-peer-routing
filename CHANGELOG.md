@@ -1,3 +1,11 @@
+## [4.0.7](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.6...v4.0.7) (2023-05-31)
+
+
+### Dependencies
+
+* **dev:** bump aegir from 38.1.8 to 39.0.9 ([#139](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/139)) ([797c287](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/797c287d54cea3226debcdbd196a7d5e17641b1f))
+* **dev:** bump it-drain from 2.0.1 to 3.0.2 ([#135](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/135)) ([9933748](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/993374867a6a9b189bfb23abc4ba5851528b59b7))
+
 ## [4.0.6](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.5...v4.0.6) (2023-05-05)
 
 
