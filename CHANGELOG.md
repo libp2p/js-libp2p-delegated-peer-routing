@@ -1,3 +1,10 @@
+## [4.0.8](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.7...v4.0.8) (2023-05-31)
+
+
+### Dependencies
+
+* swap ipfs-http-client for kubo-rpc-client ([#140](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/140)) ([0f3e0a3](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/0f3e0a380b0dfec0395283ad49030a03399ae645))
+
 ## [4.0.7](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.6...v4.0.7) (2023-05-31)
 
 
