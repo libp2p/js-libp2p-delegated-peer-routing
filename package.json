@@ -11,10 +11,6 @@
   "bugs": {
     "url": "https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues"
   },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
   "type": "module",
   "types": "./dist/src/index.d.ts",
   "files": [
@@ -142,7 +138,7 @@
     "@libp2p/interfaces": "^3.3.1",
     "@libp2p/logger": "^2.0.0",
     "@libp2p/peer-id": "^2.0.0",
-    "any-signal": "^3.0.1",
+    "any-signal": "^4.1.1",
     "ipfs-core-types": "^0.14.0",
     "multiformats": "^11.0.0",
     "p-defer": "^4.0.0",
@@ -151,11 +147,11 @@
   "devDependencies": {
     "@libp2p/peer-id-factory": "^2.0.0",
     "aegir": "^39.0.9",
-    "go-ipfs": "^0.15.0",
-    "ipfs-http-client": "^59.0.0",
+    "go-ipfs": "^0.20.0",
     "ipfsd-ctl": "^13.0.0",
     "it-all": "^3.0.1",
     "it-drain": "^3.0.2",
+    "kubo-rpc-client": "^3.0.1",
     "uint8arrays": "^4.0.2",
     "wherearewe": "^2.0.1"
   },

@@ -1,7 +1,7 @@
 import { CodeError } from '@libp2p/interfaces/errors'
 import { logger } from '@libp2p/logger'
 import { peerIdFromBytes } from '@libp2p/peer-id'
-import anySignal from 'any-signal'
+import { anySignal } from 'any-signal'
 import { CID } from 'multiformats/cid'
 import defer from 'p-defer'
 import PQueue from 'p-queue'
@@ -169,8 +169,8 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
   async findPeer (id: PeerId, options: HTTPClientExtraOptions & AbortOptions = {}): Promise<PeerInfo> {
     log('findPeer starts: %p', id)
     options.timeout = options.timeout ?? DEFAULT_TIMEOUT
-    options.signal = anySignal([this.abortController.signal].concat((options.signal != null) ? [options.signal] : []))
 
+    const signal = anySignal([this.abortController.signal, options.signal])
     const onStart = defer()
     const onFinish = defer()
 
@@ -182,8 +182,11 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
     try {
       await onStart.promise
 
-      for await (const event of this.client.dht.findPeer(id, options)) {
-        if (event.name === 'FINAL_PEER') {
+      for await (const event of this.client.dht.findPeer(id, {
+        ...options,
+        signal
+      })) {
+        if (event.name === 'FINAL_PEER' && event.peer.multiaddrs.length > 0) {
           const peerInfo: PeerInfo = {
             id: event.peer.id,
             multiaddrs: event.peer.multiaddrs,
@@ -193,16 +196,17 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
           return peerInfo
         }
       }
+
+      throw new CodeError('Not found', 'ERR_NOT_FOUND')
     } catch (err: any) {
       log.error('findPeer errored: %o', err)
 
       throw err
     } finally {
+      signal.clear()
       onFinish.resolve()
       log('findPeer finished: %p', id)
     }
-
-    throw new CodeError('Not found', 'ERR_NOT_FOUND')
   }
 
   /**
@@ -220,8 +224,8 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
 
     log('getClosestPeers starts: %s', cidOrPeerId)
     options.timeout = options.timeout ?? DEFAULT_TIMEOUT
-    options.signal = anySignal([this.abortController.signal].concat((options.signal != null) ? [options.signal] : []))
 
+    const signal = anySignal([this.abortController.signal, options.signal])
     const onStart = defer()
     const onFinish = defer()
 
@@ -233,7 +237,10 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
     try {
       await onStart.promise
 
-      for await (const event of this.client.dht.query(cidOrPeerId, options)) {
+      for await (const event of this.client.dht.query(cidOrPeerId, {
+        ...options,
+        signal
+      })) {
         if (event.name === 'PEER_RESPONSE') {
           yield * event.closer.map(closer => ({
             id: closer.id,
@@ -246,6 +253,7 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
       log.error('getClosestPeers errored:', err)
       throw err
     } finally {
+      signal.clear()
       onFinish.resolve()
       log('getClosestPeers finished: %b', key)
     }

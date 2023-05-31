@@ -6,10 +6,10 @@ import { createEd25519PeerId } from '@libp2p/peer-id-factory'
 import { expect } from 'aegir/chai'
 // @ts-expect-error no types
 import goIpfs from 'go-ipfs'
-import { create, type Options, CID as IPFSCID } from 'ipfs-http-client'
 import { type Controller, createFactory } from 'ipfsd-ctl'
 import all from 'it-all'
 import drain from 'it-drain'
+import { create, type Options, CID as IPFSCID } from 'kubo-rpc-client'
 import { CID } from 'multiformats/cid'
 import pDefer from 'p-defer'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
@@ -62,11 +62,9 @@ function createIpfsClient (opts: Options): any {
     },
     dht: {
       async * findPeer (peerId: PeerId, options?: AbortOptions) {
-        // @ts-expect-error ipfs-http-client types are out of date
         yield * client.dht.findPeer(peerId, options)
       },
       async * query (peerId: PeerId | CID, options?: AbortOptions) {
-        // @ts-expect-error ipfs-http-client types are out of date
         yield * client.dht.query(peerId, options)
       }
     }
