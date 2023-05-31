@@ -155,7 +155,7 @@
     "ipfs-http-client": "^59.0.0",
     "ipfsd-ctl": "^13.0.0",
     "it-all": "^3.0.1",
-    "it-drain": "^2.0.0",
+    "it-drain": "^3.0.2",
     "uint8arrays": "^4.0.2",
     "wherearewe": "^2.0.1"
   },
