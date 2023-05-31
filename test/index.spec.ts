@@ -1,23 +1,23 @@
 /* eslint-env mocha */
 
-import { expect } from 'aegir/chai'
-import { Controller, createFactory } from 'ipfsd-ctl'
-import { isElectronMain, isNode } from 'wherearewe'
-import { create, Options, CID as IPFSCID } from 'ipfs-http-client'
-import { delegatedPeerRouting } from '../src/index.js'
-// @ts-expect-error no types
-import goIpfs from 'go-ipfs'
+import { stop } from '@libp2p/interfaces/startable'
 import { peerIdFromString } from '@libp2p/peer-id'
 import { createEd25519PeerId } from '@libp2p/peer-id-factory'
+import { expect } from 'aegir/chai'
+// @ts-expect-error no types
+import goIpfs from 'go-ipfs'
+import { create, type Options, CID as IPFSCID } from 'ipfs-http-client'
+import { type Controller, createFactory } from 'ipfsd-ctl'
 import all from 'it-all'
-import pDefer from 'p-defer'
 import drain from 'it-drain'
-import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
-import type { IDResult } from 'ipfs-core-types/src/root'
 import { CID } from 'multiformats/cid'
-import type { AbortOptions } from '@libp2p/interfaces'
+import pDefer from 'p-defer'
+import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
+import { isElectronMain, isNode } from 'wherearewe'
+import { delegatedPeerRouting } from '../src/index.js'
 import type { PeerId } from '@libp2p/interface-peer-id'
-import { stop } from '@libp2p/interfaces/startable'
+import type { AbortOptions } from '@libp2p/interfaces'
+import type { IDResult } from 'ipfs-core-types/src/root'
 
 const factory = createFactory({
   type: 'go',
@@ -99,7 +99,7 @@ describe('DelegatedPeerRouting', function () {
   })
 
   after(async () => {
-    return await Promise.all([
+    return Promise.all([
       nodeToFind.stop(),
       delegatedNode.stop(),
       bootstrapNode.stop()
