@@ -151,7 +151,7 @@
   "devDependencies": {
     "@libp2p/peer-id-factory": "^2.0.0",
     "aegir": "^39.0.9",
-    "go-ipfs": "^0.15.0",
+    "go-ipfs": "^0.20.0",
     "ipfs-http-client": "^59.0.0",
     "ipfsd-ctl": "^13.0.0",
     "it-all": "^3.0.1",
