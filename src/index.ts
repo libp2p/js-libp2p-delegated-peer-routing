@@ -1,15 +1,15 @@
-import { logger } from '@libp2p/logger'
-import { CID } from 'multiformats/cid'
-import PQueue from 'p-queue'
-import defer from 'p-defer'
 import { CodeError } from '@libp2p/interfaces/errors'
-import anySignal from 'any-signal'
-import type { PeerId } from '@libp2p/interface-peer-id'
-import type { AbortOptions } from 'ipfs-core-types/src/utils'
-import type { PeerRouting } from '@libp2p/interface-peer-routing'
-import type { PeerInfo } from '@libp2p/interface-peer-info'
-import type { Startable } from '@libp2p/interfaces/startable'
+import { logger } from '@libp2p/logger'
 import { peerIdFromBytes } from '@libp2p/peer-id'
+import anySignal from 'any-signal'
+import { CID } from 'multiformats/cid'
+import defer from 'p-defer'
+import PQueue from 'p-queue'
+import type { PeerId } from '@libp2p/interface-peer-id'
+import type { PeerInfo } from '@libp2p/interface-peer-info'
+import type { PeerRouting } from '@libp2p/interface-peer-routing'
+import type { Startable } from '@libp2p/interfaces/startable'
+import type { AbortOptions } from 'ipfs-core-types/src/utils'
 
 const log = logger('libp2p:delegated-peer-routing')
 
@@ -176,7 +176,7 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
 
     void this.httpQueue.add(async () => {
       onStart.resolve()
-      return await onFinish.promise
+      return onFinish.promise
     })
 
     try {
@@ -227,7 +227,7 @@ class DelegatedPeerRouting implements PeerRouting, Startable {
 
     void this.httpQueue.add(async () => {
       onStart.resolve()
-      return await onFinish.promise
+      return onFinish.promise
     })
 
     try {
