@@ -1,3 +1,17 @@
+## [4.0.9](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.8...v4.0.9) (2023-07-03)
+
+
+### Trivial Changes
+
+* Update .github/workflows/semantic-pull-request.yml [skip ci] ([c8a44d6](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/c8a44d67250fa8a7a4dfa70e5010bfb4c7dcb077))
+* Update .github/workflows/stale.yml [skip ci] ([dca049c](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/dca049c2b20f6dfbef273d42f2c525a0f8ba6ddf))
+* Update .github/workflows/stale.yml [skip ci] ([b97c54f](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/b97c54f2dd9b9543812e409c4f14f3882273e99f))
+
+
+### Dependencies
+
+* **dev:** bump go-ipfs from 0.20.0 to 0.21.0 ([#142](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/142)) ([6d6e445](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/6d6e445bd43a0ea6db0b0d6eccba8be6d11a2176))
+
 ## [4.0.8](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.7...v4.0.8) (2023-05-31)
 
 
