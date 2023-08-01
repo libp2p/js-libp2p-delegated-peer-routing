@@ -145,7 +145,7 @@
     "p-queue": "^7.2.0"
   },
   "devDependencies": {
-    "@libp2p/peer-id-factory": "^2.0.0",
+    "@libp2p/peer-id-factory": "^3.0.0",
     "aegir": "^39.0.9",
     "go-ipfs": "^0.21.0",
     "ipfsd-ctl": "^13.0.0",
