@@ -1,6 +1,6 @@
 {
   "name": "@libp2p/delegated-peer-routing",
-  "version": "4.0.8",
+  "version": "4.0.10",
   "description": "Leverage other peers in the libp2p network to perform Peer Routing calls.",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/libp2p/js-libp2p-delegated-peer-routing#readme",
@@ -136,8 +136,8 @@
     "@libp2p/interface-peer-info": "^1.0.1",
     "@libp2p/interface-peer-routing": "^1.0.0",
     "@libp2p/interfaces": "^3.3.1",
-    "@libp2p/logger": "^2.0.0",
-    "@libp2p/peer-id": "^2.0.0",
+    "@libp2p/logger": "^3.0.0",
+    "@libp2p/peer-id": "^3.0.0",
     "any-signal": "^4.1.1",
     "ipfs-core-types": "^0.14.0",
     "multiformats": "^12.0.1",
@@ -145,9 +145,9 @@
     "p-queue": "^7.2.0"
   },
   "devDependencies": {
-    "@libp2p/peer-id-factory": "^2.0.0",
+    "@libp2p/peer-id-factory": "^3.0.0",
     "aegir": "^39.0.9",
-    "go-ipfs": "^0.20.0",
+    "go-ipfs": "^0.21.0",
     "ipfsd-ctl": "^13.0.0",
     "it-all": "^3.0.1",
     "it-drain": "^3.0.2",
