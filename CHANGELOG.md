@@ -1,3 +1,17 @@
+## [4.0.11](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.10...v4.0.11) (2023-08-24)
+
+
+### Trivial Changes
+
+* add or force update .github/workflows/js-test-and-release.yml ([#152](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/152)) ([fbd004f](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/fbd004f7bd8f51d0db1ca408fdfcec65096a603c))
+* delete templates [skip ci] ([#151](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/151)) ([4f1dd24](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/4f1dd24d66ee781b826ee7ad5be0262b88f8ba4a))
+* Update CODEOWNERS [skip ci] ([61f7181](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/61f7181c499943a0bd8eb429f462982fcc19e6e7))
+
+
+### Dependencies
+
+* bump multiformats from 11.0.2 to 12.0.1 ([#141](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/141)) ([09e2564](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/09e2564c97c4599526383928309b0968e07255d8))
+
 ## [4.0.10](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.9...v4.0.10) (2023-08-01)
 
 
