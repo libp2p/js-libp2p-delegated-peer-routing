@@ -1,3 +1,10 @@
+## [4.0.12](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.11...v4.0.12) (2023-08-30)
+
+
+### Dependencies
+
+* upgrade all deps ([#153](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/153)) ([6835c29](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/6835c292721de83cc43ad9c0279550ce7b8063e1))
+
 ## [4.0.11](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.10...v4.0.11) (2023-08-24)
 
 
