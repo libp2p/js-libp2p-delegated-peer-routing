@@ -1,3 +1,33 @@
+## [4.0.12](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.11...v4.0.12) (2023-08-30)
+
+
+### Dependencies
+
+* upgrade all deps ([#153](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/153)) ([6835c29](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/6835c292721de83cc43ad9c0279550ce7b8063e1))
+
+## [4.0.11](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.10...v4.0.11) (2023-08-24)
+
+
+### Trivial Changes
+
+* add or force update .github/workflows/js-test-and-release.yml ([#152](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/152)) ([fbd004f](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/fbd004f7bd8f51d0db1ca408fdfcec65096a603c))
+* delete templates [skip ci] ([#151](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/151)) ([4f1dd24](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/4f1dd24d66ee781b826ee7ad5be0262b88f8ba4a))
+* Update CODEOWNERS [skip ci] ([61f7181](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/61f7181c499943a0bd8eb429f462982fcc19e6e7))
+
+
+### Dependencies
+
+* bump multiformats from 11.0.2 to 12.0.1 ([#141](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/141)) ([09e2564](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/09e2564c97c4599526383928309b0968e07255d8))
+
+## [4.0.10](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.9...v4.0.10) (2023-08-01)
+
+
+### Dependencies
+
+* bump @libp2p/logger from 2.1.1 to 3.0.0 ([#146](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/146)) ([92d5157](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/92d51573fd6e9adfa30b03c49b1cf03b40987426))
+* bump @libp2p/peer-id from 2.0.4 to 3.0.0 ([#147](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/147)) ([a973107](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/a973107981bf3bb255b9937e4b773bd8f066d437))
+* **dev:** bump @libp2p/peer-id-factory from 2.0.4 to 3.0.0 ([#148](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/148)) ([9cc56e0](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/9cc56e0b5374336e3702f41ef9e513e54a4dbae8))
+
 ## [4.0.9](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.8...v4.0.9) (2023-07-03)
 
 
