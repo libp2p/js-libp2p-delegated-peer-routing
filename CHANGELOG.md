@@ -1,3 +1,17 @@
+## [4.0.13](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.12...v4.0.13) (2023-10-06)
+
+
+### Trivial Changes
+
+* add missing dep ([ba7f237](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/ba7f23742998980231f6be4bb885979f9bab1059))
+* Update .github/pull_request_template.md [skip ci] ([7ec087a](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/7ec087a24013a4406393efee09c8385c976ff6c6))
+* update config ([4095e1d](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/4095e1d0efb563f27d1fae1df6ef9bfe3011fcdc))
+
+
+### Dependencies
+
+* **dev:** bump aegir from 39.0.13 to 40.0.8 ([#149](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/149)) ([2b97412](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/2b97412c2eeb080732434008d61cf38d6163ec37))
+
 ## [4.0.12](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.11...v4.0.12) (2023-08-30)
 
 
