@@ -107,11 +107,11 @@ export interface DialingPeerEvent {
 export type QueryEvent = SendingQueryEvent | PeerResponseEvent | FinalPeerEvent | QueryErrorEvent | ProviderEvent | ValueEvent | AddingPeerEvent | DialingPeerEvent
 
 export interface Delegate {
-  getEndpointConfig: () => { protocol: string, host: string, port: string }
+  getEndpointConfig(): { protocol: string, host: string, port: string }
 
   dht: {
-    findPeer: (peerId: PeerId, options?: AbortOptions) => AsyncIterable<QueryEvent>
-    query: (peerId: PeerId | CID, options?: AbortOptions) => AsyncIterable<QueryEvent>
+    findPeer(peerId: PeerId, options?: AbortOptions): AsyncIterable<QueryEvent>
+    query(peerId: PeerId | CID, options?: AbortOptions): AsyncIterable<QueryEvent>
   }
 }
 
