@@ -129,9 +129,8 @@
     "test:firefox-webworker": "aegir test -t webworker -- --browser firefox",
     "test:node": "aegir test -t node --cov",
     "test:electron-main": "aegir test -t electron-main",
-    "release": "run-s build docs:no-publish npm:release docs",
-    "docs": "NODE_OPTIONS=--max_old_space_size=8192 aegir docs",
-    "docs:no-publish": "NODE_OPTIONS=--max_old_space_size=8192 aegir docs --publish false"
+    "release": "aegir release",
+    "docs": "aegir docs"
   },
   "dependencies": {
     "@libp2p/interface-peer-id": "^2.0.2",
@@ -154,7 +153,6 @@
     "it-all": "^3.0.3",
     "it-drain": "^3.0.3",
     "kubo-rpc-client": "^3.0.1",
-    "npm-run-all": "^4.1.5",
     "uint8arrays": "^4.0.6",
     "wherearewe": "^2.0.1"
   },
