@@ -157,6 +157,6 @@
     "wherearewe": "^2.0.1"
   },
   "browser": {
-    "go-ipfs": false
+    "kubo": false
   }
 }

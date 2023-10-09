@@ -1,6 +1,6 @@
 import { createServer } from 'ipfsd-ctl'
 import * as ipfsHttpModule from 'kubo-rpc-client'
-import goIpfsModule from 'go-ipfs'
+import goIpfsModule from 'kubo'
 
 let server
 
