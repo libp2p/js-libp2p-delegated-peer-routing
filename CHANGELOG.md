@@ -1,3 +1,10 @@
+## [4.0.14](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.13...v4.0.14) (2023-10-09)
+
+
+### Dependencies
+
+* swap go-ipfs for kubo ([#154](https://github.com/libp2p/js-libp2p-delegated-peer-routing/issues/154)) ([0e3ca6c](https://github.com/libp2p/js-libp2p-delegated-peer-routing/commit/0e3ca6cc057caf87911d4be4467fc31e9698559c))
+
 ## [4.0.13](https://github.com/libp2p/js-libp2p-delegated-peer-routing/compare/v4.0.12...v4.0.13) (2023-10-06)
 
 
