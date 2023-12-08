@@ -143,7 +143,7 @@
     "ipfs-core-types": "^0.14.1",
     "multiformats": "^12.1.2",
     "p-defer": "^4.0.0",
-    "p-queue": "^7.3.4"
+    "p-queue": "^8.0.0"
   },
   "devDependencies": {
     "@libp2p/peer-id-factory": "^3.0.3",
