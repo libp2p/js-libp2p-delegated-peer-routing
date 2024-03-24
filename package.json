@@ -146,7 +146,7 @@
     "p-queue": "^7.3.4"
   },
   "devDependencies": {
-    "@libp2p/peer-id-factory": "^3.0.3",
+    "@libp2p/peer-id-factory": "^4.0.5",
     "aegir": "^41.0.3",
     "ipfsd-ctl": "^13.0.0",
     "it-all": "^3.0.3",
