@@ -141,7 +141,7 @@
     "@libp2p/peer-id": "^3.0.2",
     "any-signal": "^4.1.1",
     "ipfs-core-types": "^0.14.1",
-    "multiformats": "^12.1.2",
+    "multiformats": "^13.0.1",
     "p-defer": "^4.0.0",
     "p-queue": "^7.3.4"
   },
